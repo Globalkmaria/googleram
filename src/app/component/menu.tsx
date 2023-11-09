@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 import RouteIcon from "./route/RouteIcon";
-import SignIn from "./route/SignIn";
+import SignIn from "./SignIn";
 import WithList from "./WithList";
 import HomeFillIcon from "./Icons/HomeFillIcon";
 import HomeIcon from "./Icons/HomeIcon";
@@ -15,12 +15,7 @@ export type Route = {
   title: string;
 };
 
-type MenuComponent = {
-  title: string;
-  Component: () => ReactNode;
-};
-
-const menuData: (RouteIcon | MenuComponent)[] = [
+const menuData: RouteIcon[] = [
   {
     path: "/",
     defaultIcon: HomeIcon,
@@ -39,14 +34,6 @@ const menuData: (RouteIcon | MenuComponent)[] = [
     filledIcon: NewFillIcon,
     title: "New",
   },
-  {
-    title: "Sign in",
-    Component: SignIn,
-  },
 ];
 
-const Menu = menuData.map((route) =>
-  "Component" in route ? route.Component : RouteIcon(route)
-);
-
-export const MenuList = WithList(Menu);
+export const menu = menuData.map((route) => RouteIcon(route));
