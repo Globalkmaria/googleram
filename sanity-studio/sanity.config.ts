@@ -8,10 +8,10 @@ const devOnlyPlugins = [getStartedPlugin()]
 
 export default defineConfig({
   name: 'default',
-  title: 'instargram',
+  title: process.env.SANITY_STUDIO_TITLE,
 
-  projectId: 'ls7t81fl',
-  dataset: 'production',
+  projectId: process.env.SANITY_STUDIO_API_PROJECT_ID || '',
+  dataset: process.env.SANITY_STUDIO_API_DATASET || '',
 
   plugins: [deskTool(), visionTool(), ...(isDev ? devOnlyPlugins : [])],
 
@@ -19,4 +19,3 @@ export default defineConfig({
     types: schemaTypes,
   },
 })
-
