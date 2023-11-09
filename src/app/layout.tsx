@@ -1,3 +1,5 @@
+import Main from "./component/Main";
+import Nav from "./component/Nav";
 import "./globals.css";
 import { Open_Sans } from "next/font/google";
 
@@ -15,7 +17,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={open_Sans.className}>
-      <body>{children}</body>
+      <body>
+        <Nav />
+        <Main>{children}</Main>
+      </body>
     </html>
   );
 }
