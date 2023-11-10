@@ -1,26 +1,20 @@
-"use client";
+import { getProviders } from "next-auth/react";
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
 
-import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import SignIn from "./SignIn";
 
-import InstarBtn from "@/app/component/InstarBtn";
-
-const googleSignIn = () => signIn("google");
-
-function SignInPage() {
-  const router = useRouter();
-  const { data: session } = useSession();
+async function SignInPage() {
+  const session = await getServerSession(authOptions);
 
   if (session) {
-    router.push("/");
-    return;
+    redirect("/");
   }
 
-  return (
-    <div className="min-w-[100vw] flex justify-center mt-40">
-      <InstarBtn onClick={googleSignIn} title={"Sign in with Google"} />
-    </div>
-  );
+  const providers = (await getProviders()) ?? {};
+
+  return <SignIn providers={providers} />;
 }
 
 export default SignInPage;
