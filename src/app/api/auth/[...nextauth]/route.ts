@@ -1,7 +1,9 @@
 import NextAuth from "next-auth/next";
+import { NextAuthOptions } from "next-auth";
+
 import GoogleProvider from "next-auth/providers/google";
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/auth/signIn",
   },
@@ -12,13 +14,15 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    async redirect({ url, baseUrl }) {
-      if (url.startsWith("/")) return `${baseUrl}${url}`;
-      else if (new URL(url).origin === baseUrl) {
-        const callback = new URL(url).searchParams.get("callbackUrl");
-        return callback ? callback : url;
+    async session({ session }) {
+      const user = session?.user;
+      if (user) {
+        session.user = {
+          ...user,
+          username: user.email?.split("@")[0] || "",
+        };
       }
-      return baseUrl;
+      return session;
     },
   },
 };

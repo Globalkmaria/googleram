@@ -7,15 +7,16 @@ import InstarBtn from "@/app/component/InstarBtn";
 
 type Props = {
   providers: Record<string, ClientSafeProvider>;
+  callbackUrl: string;
 };
 
-function SignIn({ providers }: Props) {
+function SignIn({ providers, callbackUrl }: Props) {
   return (
     <section className="min-w-[100vw] flex justify-center mt-[30%]">
       {Object.values(providers).map((provider) => (
         <InstarBtn
           key={provider.name}
-          onClick={() => signIn(provider.id)}
+          onClick={() => signIn(provider.id, { callbackUrl })}
           title={`Sign in with ${provider.name}`}
           size="large"
         />

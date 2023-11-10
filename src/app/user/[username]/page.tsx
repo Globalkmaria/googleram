@@ -19,7 +19,7 @@ function UserPage() {
       <div className="w-40 mb-4">
         <Avatar />
       </div>
-      <h2 className="font-semibold text-lg">{session?.user?.name}</h2>
+      <h2 className="font-semibold text-lg">{session?.user?.username}</h2>
       <h2 className="font-semibold text-lg">{session?.user?.email}</h2>
     </div>
   );

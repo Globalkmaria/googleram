@@ -5,7 +5,13 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import SignIn from "./SignIn";
 
-async function SignInPage() {
+type Props = {
+  searchParams: {
+    callbackUrl: string;
+  };
+};
+
+async function SignInPage({ searchParams: { callbackUrl } }: Props) {
   const session = await getServerSession(authOptions);
 
   if (session) {
@@ -14,7 +20,7 @@ async function SignInPage() {
 
   const providers = (await getProviders()) ?? {};
 
-  return <SignIn providers={providers} />;
+  return <SignIn providers={providers} callbackUrl={callbackUrl ?? "/"} />;
 }
 
 export default SignInPage;
