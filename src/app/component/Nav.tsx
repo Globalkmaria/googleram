@@ -5,8 +5,10 @@ import Link from "next/link";
 import SignBtn from "./SignBtn";
 import { menu } from "./menu";
 import AvatarLink from "./AvatarLink";
+import { useSession } from "next-auth/react";
 
 function Nav() {
+  const { data: session } = useSession();
   return (
     <nav
       className="flex justify-between p-8 w-full
@@ -23,9 +25,11 @@ function Nav() {
               <Item />
             </li>
           ))}
-          <li className="w-12">
-            <AvatarLink />
-          </li>
+          {session && (
+            <li className="w-12">
+              <AvatarLink />
+            </li>
+          )}
           <li>
             <SignBtn />
           </li>
