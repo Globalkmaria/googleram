@@ -23,7 +23,7 @@ function Nav() {
               <Item />
             </li>
           ))}
-          <li>
+          <li className="w-12">
             <AvatarLink />
           </li>
           <li>
