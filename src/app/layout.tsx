@@ -3,7 +3,7 @@ import { Open_Sans } from "next/font/google";
 import Main from "./component/Main";
 import Nav from "./component/Nav";
 import "./globals.css";
-import NextAuthSessionProvider from "./component/NextAuthSessionProvider";
+import AuthContext from "@/context/AuthContext";
 
 const open_Sans = Open_Sans({ subsets: ["latin"] });
 
@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={open_Sans.className}>
       <body className="w-full max-w-screen-xl overflow-auto mx-auto">
-        <NextAuthSessionProvider>
+        <AuthContext>
           <header
             className="sticky top-0 bg-white z-10  
           border-slate-200 border-b-2"
@@ -28,7 +28,7 @@ export default function RootLayout({
             <Nav />
           </header>
           <Main>{children}</Main>
-        </NextAuthSessionProvider>
+        </AuthContext>
       </body>
     </html>
   );

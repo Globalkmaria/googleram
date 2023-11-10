@@ -1,3 +1,5 @@
+"use client";
+
 type InstarBtn = {
   onClick: () => void;
   title: string;

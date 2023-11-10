@@ -5,9 +5,9 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import InstarBtn from "./InstarBtn";
 
 const onSignOut = () => signOut();
-const onSignIn = () => signIn("google");
+const onSignIn = () => signIn(undefined, { redirect: false });
 
-export default function SignIn() {
+export default function SignBtn() {
   const { data: session } = useSession();
 
   if (session) {

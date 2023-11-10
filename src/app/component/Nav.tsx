@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 
-import SignIn from "./SignIn";
+import SignBtn from "./SignBtn";
 import { menu } from "./menu";
+import AvatarLink from "./AvatarLink";
 
 function Nav() {
   return (
@@ -22,7 +23,12 @@ function Nav() {
               <Item />
             </li>
           ))}
-          <SignIn />
+          <li>
+            <AvatarLink />
+          </li>
+          <li>
+            <SignBtn />
+          </li>
         </ul>
       </div>
     </nav>
