@@ -1,22 +1,14 @@
-import { getServerSession } from "next-auth";
+import { User } from "@/model/user";
 
-import { authOptions } from "../api/auth/[...nextauth]/route";
+type Props = {
+  user: User;
+};
 
-export default async function UserInfo() {
-  const session = await getServerSession(authOptions);
-
-  if (!session) {
-    return <></>;
-  }
-
+export default async function UserInfo({ user }: Props) {
   return (
     <div>
-      <span className="font-bold block break-all">
-        {session.user?.username}
-      </span>
-      <span className="text-gray-500 block break-all">
-        {session.user?.name}
-      </span>
+      <span className="font-bold block break-all">{user?.username}</span>
+      <span className="text-gray-500 block break-all">{user?.name}</span>
     </div>
   );
 }

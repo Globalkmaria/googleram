@@ -27,7 +27,7 @@ function Nav() {
           ))}
           {session && (
             <li className="w-12">
-              <AvatarLink withRing size="small" />
+              <AvatarLink withRing size="small" user={session.user} />
             </li>
           )}
           <li>

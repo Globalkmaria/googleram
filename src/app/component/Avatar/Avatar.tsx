@@ -1,16 +1,13 @@
-"use client";
-
-import { useSession } from "next-auth/react";
+import { User } from "@/model/user";
 
 export type AvatarProps = {
   withRing?: boolean;
   size?: "small" | "medium";
+  user: User;
 };
 
-function Avatar({ withRing = false, size = "medium" }: AvatarProps) {
-  const { data: session } = useSession();
-
-  if (!session) {
+function Avatar({ withRing = false, size = "medium", user }: AvatarProps) {
+  if (!user?.image) {
     return <></>;
   }
 
@@ -19,9 +16,9 @@ function Avatar({ withRing = false, size = "medium" }: AvatarProps) {
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         className={getImageStyle({ size })}
-        src={session.user?.image ?? undefined}
+        src={user?.image ?? undefined}
         alt={`user avatar`}
-        title={session.user?.name || ""}
+        title={user?.name || ""}
         referrerPolicy="no-referrer"
       />
     </div>
@@ -30,7 +27,10 @@ function Avatar({ withRing = false, size = "medium" }: AvatarProps) {
 
 export default Avatar;
 
-const getContainerStyle = ({ size, withRing }: AvatarProps) => {
+const getContainerStyle = ({
+  size,
+  withRing,
+}: Pick<AvatarProps, "size" | "withRing">) => {
   const base = "rounded-full flex justify-center items-center";
   const sizeStyle =
     size === "small"
@@ -43,12 +43,12 @@ const getContainerStyle = ({ size, withRing }: AvatarProps) => {
   return `${base} ${sizeStyle} ${ringStyle}`;
 };
 
-const getImageStyle = ({ size }: AvatarProps) => {
+const getImageStyle = ({ size }: Pick<AvatarProps, "size">) => {
   const base = "rounded-full bg-white";
   const sizeStyle =
     size === "small"
-      ? "h-[36px] w-[36px] p-[0.1rem]"
-      : "h-[64px] w-[64px] p-[0.2rem]";
+      ? "h-[36px] w-[36px] p-[2px]"
+      : "h-[66px] w-[66px] p-[3px]";
 
   return `${base} ${sizeStyle}`;
 };

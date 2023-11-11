@@ -1,18 +1,24 @@
-import React from "react";
+import { getServerSession } from "next-auth";
+
 import Avatar from "../component/Avatar/Avatar";
 import UserInfo from "../component/UserInfo";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 
-export default function SideBar() {
+export default async function SideBar() {
+  const session = await getServerSession(authOptions);
+
   return (
     <div className="w-full">
-      <div className="flex items-center gap-3">
-        <div className="h-[70px] w-[70px] min-w-[70px] min-h-[70px]">
-          <Avatar />
+      {session?.user && (
+        <div className="flex items-center gap-3">
+          <div className="h-[70px] w-[70px] min-w-[70px] min-h-[70px]">
+            <Avatar user={session.user} />
+          </div>
+          <div className="text-xl">
+            <UserInfo user={session.user} />
+          </div>
         </div>
-        <div className="text-xl">
-          <UserInfo />
-        </div>
-      </div>
+      )}
       <div className=" text-gray-500 my-6 text-xl">
         {SIDE_MAP.map((item, i) => (
           <span key={i}>
