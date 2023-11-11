@@ -1,35 +1,28 @@
 "use client";
 
-import Link from "next/link";
+import useSWR from "swr";
+import { useSession } from "next-auth/react";
+import { PropagateLoader } from "react-spinners";
 
-import { User } from "@/model/user";
-import Avatar from "../component/Avatar/Avatar";
-import Carousel from "../component/Carousel";
+import FollowingCarousel from "./FollowingCarousel";
 
 export default function FollowingBar() {
+  const { data: session } = useSession();
+  const { data, isLoading, error } = useSWR(
+    `api/user/${session?.user.username}?keyword=followings`
+  );
+
+  if (error) return <div>Error loading followers</div>;
+
   return (
-    <div className="shadow-md p-4 rounded-md">
-      <Carousel>
-        {MOCK_USERS.map((user) => (
-          <Link
-            href={`/user/${user.username}`}
-            className="flex flex-col items-center"
-            key={user.username}
-          >
-            <Avatar user={user} withRing />
-            <span>{user.username}</span>
-          </Link>
-        ))}
-      </Carousel>
+    <div className="shadow-md p-4 rounded-md min-h-[126px]">
+      {isLoading ? (
+        <div className="flex justify-center items-center h-[94px]">
+          <PropagateLoader color="#d946ef" />
+        </div>
+      ) : (
+        <FollowingCarousel followings={data.followings} />
+      )}
     </div>
   );
 }
-
-const MOCK_USER: User = {
-  name: "user",
-  username: "user",
-  image: "https://i.pravatar.cc/300",
-  email: "admin@example.com",
-};
-
-const MOCK_USERS = Array(10).fill(MOCK_USER);
