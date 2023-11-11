@@ -18,7 +18,12 @@ export default function FollowingCarousel({ followings }: Props) {
           key={user.username}
         >
           <Avatar user={user} withRing />
-          <span>{user.username}</span>
+          <p
+            className="text-sm text-ellipsis overflow-hidden 
+          w-full text-center"
+          >
+            {user.username}
+          </p>
         </Link>
       ))}
     </Carousel>
