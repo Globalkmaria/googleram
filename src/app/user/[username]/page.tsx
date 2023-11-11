@@ -15,7 +15,7 @@ function UserPage() {
   }
 
   return (
-    <div className="w-full flex flex-col items-center m-10">
+    <div className="flex flex-col items-center m-10">
       <div className="w-40 mb-4">
         <Avatar />
       </div>
