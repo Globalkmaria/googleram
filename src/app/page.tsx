@@ -18,7 +18,7 @@ export default async function Home() {
       className="w-full flex flex-col md:flex-row p-6 
     max-w-[850px] m-auto"
     >
-      <div className="w-[75%] basis-3/4">
+      <div className="min-w-0 basis-3/4">
         <FollowingBar />
         <PostList />
       </div>

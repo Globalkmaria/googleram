@@ -14,7 +14,7 @@ export default function FollowingCarousel({ followings }: Props) {
       {followings.map((user) => (
         <Link
           href={`/user/${user.username}`}
-          className="flex flex-col items-center"
+          className="flex flex-col items-center w-20"
           key={user.username}
         >
           <Avatar user={user} withRing />
