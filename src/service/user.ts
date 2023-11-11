@@ -22,21 +22,15 @@ export async function addUser({ id, username, email, name, image }: OAuthUser) {
   });
 }
 
-export async function getUser(username: string) {
+export async function getUserByUsername(username: string) {
   return client.fetch(
-    `*[_type == "user" && username == $username][0]{username, 
-      user, image, email}`,
-    {
-      username,
-    }
-  );
-}
-
-export async function getFollowings(username: string) {
-  return client.fetch(
-    `*[_type == "user" && username == $username][0]{followings[]->{
-      username, image
-    }}`,
+    `*[_type == "user" && username == $username][0]{
+        ...,
+        "id": _id,
+        followings[]->{username, image},
+        followers[]->{username, image},
+        "bookmarks": bookmarks[] -> _id
+      }`,
     {
       username,
     }

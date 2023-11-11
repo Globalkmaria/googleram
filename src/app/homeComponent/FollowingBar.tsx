@@ -1,16 +1,12 @@
 "use client";
 
 import useSWR from "swr";
-import { useSession } from "next-auth/react";
 import { PropagateLoader } from "react-spinners";
 
 import FollowingCarousel from "./FollowingCarousel";
 
 export default function FollowingBar() {
-  const { data: session } = useSession();
-  const { data, isLoading, error } = useSWR(
-    `api/user/${session?.user.username}?keyword=followings`
-  );
+  const { data, isLoading, error } = useSWR(`/api/me`);
 
   if (error) return <div>Error loading followers</div>;
 
