@@ -1,11 +1,11 @@
 import Link from "next/link";
 
-import { User } from "@/model/user";
+import { SimpleUser } from "@/model/user";
 import Carousel from "../component/Carousel";
 import Avatar from "../component/Avatar/Avatar";
 
 type Props = {
-  followings: User[];
+  followings: SimpleUser[];
 };
 
 export default function FollowingCarousel({ followings }: Props) {

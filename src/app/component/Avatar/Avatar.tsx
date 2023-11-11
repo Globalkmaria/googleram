@@ -1,9 +1,9 @@
-import { User } from "@/model/user";
+import { SimpleUser, User } from "@/model/user";
 
 export type AvatarProps = {
   withRing?: boolean;
   size?: "small" | "medium";
-  user: User;
+  user: SimpleUser;
 };
 
 function Avatar({ withRing = false, size = "medium", user }: AvatarProps) {
@@ -18,7 +18,7 @@ function Avatar({ withRing = false, size = "medium", user }: AvatarProps) {
         className={getImageStyle({ size })}
         src={user?.image ?? undefined}
         alt={`user avatar`}
-        title={user?.name || ""}
+        title={user?.username || ""}
         referrerPolicy="no-referrer"
       />
     </div>
