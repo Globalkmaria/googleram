@@ -1,18 +1,25 @@
-import { useSession } from "next-auth/react";
-import Image from "next/image";
-import React from "react";
+"use client";
 
-function Avatar() {
+import { useSession } from "next-auth/react";
+
+type Props = {
+  withRing?: boolean;
+};
+
+function Avatar({ withRing = true }: Props) {
   const { data: session } = useSession();
 
   if (!session) {
     return <></>;
   }
 
+  const bgClass = withRing ? RING_CLASS : "";
+
   return (
     <div
-      className="block text-2xl bg-gradient-to-tr from-amber-400  
-    via-rose-500  to-fuchsia-500 px-1 py-1 rounded-full"
+      className={`block bg-gradient-to-tr from-amber-400  
+    via-rose-500  to-fuchsia-500 rounded-full ${bgClass} h-full w-full
+    `}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
@@ -27,3 +34,5 @@ function Avatar() {
 }
 
 export default Avatar;
+
+const RING_CLASS = "p-1";

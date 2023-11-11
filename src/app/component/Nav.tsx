@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import SignBtn from "./SignBtn";
 import { menu } from "./menu";
-import AvatarLink from "./AvatarLink";
+import AvatarLink from "./Avatar/AvatarLink";
 import { useSession } from "next-auth/react";
 
 function Nav() {

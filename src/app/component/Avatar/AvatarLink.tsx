@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import WithLink from "./WithLink";
+import WithLink from "../WithLink";
 import Avatar from "./Avatar";
 
 function AvatarLink() {

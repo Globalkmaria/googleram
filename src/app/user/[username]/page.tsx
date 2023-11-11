@@ -3,7 +3,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-import Avatar from "@/app/component/Avatar";
+import Avatar from "@/app/component/Avatar/Avatar";
 
 function UserPage() {
   const router = useRouter();
