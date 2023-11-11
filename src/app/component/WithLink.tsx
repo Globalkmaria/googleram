@@ -7,12 +7,12 @@ type Props = {
 };
 
 function WithLink({ Component, href }: Props) {
-  const NewComponent = (
+  const LinkComponent = (props: any) => (
     <Link href={href}>
-      <Component />
+      <Component {...props} />
     </Link>
   );
-  return NewComponent;
+  return LinkComponent;
 }
 
 export default WithLink;

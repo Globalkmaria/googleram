@@ -1,14 +1,15 @@
 import { useSession } from "next-auth/react";
 import WithLink from "../WithLink";
-import Avatar from "./Avatar";
+import Avatar, { AvatarProps } from "./Avatar";
 
-function AvatarLink() {
+function AvatarLink(props: AvatarProps) {
   const { data: session } = useSession();
   if (!session) {
     return <></>;
   }
   const href = `/user/${session.user?.username || ""}`;
-  return WithLink({ Component: Avatar, href });
+  const Link = WithLink({ Component: Avatar, href });
+  return <Link {...props} />;
 }
 
 export default AvatarLink;

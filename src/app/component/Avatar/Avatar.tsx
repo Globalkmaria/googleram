@@ -2,28 +2,23 @@
 
 import { useSession } from "next-auth/react";
 
-type Props = {
+export type AvatarProps = {
   withRing?: boolean;
+  size?: "small" | "medium";
 };
 
-function Avatar({ withRing = true }: Props) {
+function Avatar({ withRing = false, size = "medium" }: AvatarProps) {
   const { data: session } = useSession();
 
   if (!session) {
     return <></>;
   }
 
-  const bgClass = withRing ? RING_CLASS : "";
-
   return (
-    <div
-      className={`block bg-gradient-to-tr from-amber-400  
-    via-rose-500  to-fuchsia-500 rounded-full ${bgClass} h-full w-full
-    `}
-    >
+    <div className={getContainerStyle({ withRing, size })}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        className="rounded-full w-full h-full"
+        className={getImageStyle({ size })}
         src={session.user?.image ?? undefined}
         alt={`user avatar`}
         title={session.user?.name || ""}
@@ -35,4 +30,25 @@ function Avatar({ withRing = true }: Props) {
 
 export default Avatar;
 
-const RING_CLASS = "p-1";
+const getContainerStyle = ({ size, withRing }: AvatarProps) => {
+  const base = "rounded-full flex justify-center items-center";
+  const sizeStyle =
+    size === "small"
+      ? "h-[40px] w-[40px] min-w-[40px] min-h-[40px]"
+      : "h-[70px] w-[70px] min-w-[70px] min-h-[70px]";
+  const ringStyle = withRing
+    ? "bg-gradient-to-tr from-amber-400 via-rose-500 to-fuchsia-500"
+    : "";
+
+  return `${base} ${sizeStyle} ${ringStyle}`;
+};
+
+const getImageStyle = ({ size }: AvatarProps) => {
+  const base = "rounded-full bg-white";
+  const sizeStyle =
+    size === "small"
+      ? "h-[36px] w-[36px] p-[0.1rem]"
+      : "h-[64px] w-[64px] p-[0.2rem]";
+
+  return `${base} ${sizeStyle}`;
+};

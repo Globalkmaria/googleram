@@ -7,7 +7,7 @@ export default function SideBar() {
     <div className="w-full">
       <div className="flex items-center gap-3">
         <div className="h-[70px] w-[70px] min-w-[70px] min-h-[70px]">
-          <Avatar withRing={false} />
+          <Avatar />
         </div>
         <div className="text-xl">
           <UserInfo />

@@ -14,7 +14,7 @@ export default async function UserPage() {
   return (
     <div className="flex flex-col items-center m-10">
       <div className="w-40 mb-4">
-        <Avatar />
+        <Avatar withRing />
       </div>
       <h2 className="font-semibold text-lg">{session?.user?.username}</h2>
       <h2 className="font-semibold text-lg">{session?.user?.email}</h2>
