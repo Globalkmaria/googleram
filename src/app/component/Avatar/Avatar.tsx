@@ -44,7 +44,7 @@ const getContainerStyle = ({
 };
 
 const getImageStyle = ({ size }: Pick<AvatarProps, "size">) => {
-  const base = "rounded-full bg-white";
+  const base = "rounded-full bg-white object-cover";
   const sizeStyle =
     size === "small"
       ? "h-[36px] w-[36px] p-[2px]"
