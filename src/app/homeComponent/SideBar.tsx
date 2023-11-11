@@ -4,7 +4,7 @@ import UserInfo from "../component/UserInfo";
 
 export default function SideBar() {
   return (
-    <div className=" w-[300px]">
+    <div className="w-full">
       <div className="flex items-center gap-3">
         <div className="h-[70px] w-[70px] min-w-[70px] min-h-[70px]">
           <Avatar withRing={false} />

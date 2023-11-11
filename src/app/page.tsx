@@ -14,12 +14,17 @@ export default async function Home() {
   }
 
   return (
-    <section className="flex justify-between p-6">
-      <div>
+    <section
+      className="w-full flex flex-col md:flex-row p-6 
+    max-w-[850px] m-auto"
+    >
+      <div className=" w-full basis-3/4">
         <FollowingBar />
         <PostList />
       </div>
-      <SideBar />
+      <div className="basis-1/4">
+        <SideBar />
+      </div>
     </section>
   );
 }
