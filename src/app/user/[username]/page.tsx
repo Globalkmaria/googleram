@@ -1,4 +1,8 @@
+"use client";
+
 import Avatar from "@/app/component/Avatar/Avatar";
+import { PropagateLoader } from "react-spinners";
+import useSWR from "swr";
 
 type Props = {
   params: {
@@ -6,15 +10,19 @@ type Props = {
   };
 };
 
-export default async function UserPage({ params: { username } }: Props) {
+export default function UserPage({ params: { username } }: Props) {
+  const { data: user, isLoading } = useSWR(`/api/user/${username}`);
   return (
     <div className="flex flex-col items-center m-10">
-      {/* <div className="w-40 mb-4">
-        <Avatar user={session.user} withRing />
-      </div>
-      <h2 className="font-semibold text-lg">{session?.user?.username}</h2>
-      <h2 className="font-semibold text-lg">{session?.user?.email}</h2> */}
-      <h2 className="font-semibold text-lg">{username}</h2>
+      {isLoading ? (
+        <PropagateLoader color="#d946ef" />
+      ) : (
+        <>
+          <Avatar user={user} withRing />
+          <h2 className="font-semibold text-lg">{user?.username}</h2>
+          <h2 className="font-semibold text-lg">{user?.email}</h2>
+        </>
+      )}
     </div>
   );
 }

@@ -23,9 +23,13 @@ export async function addUser({ id, username, email, name, image }: OAuthUser) {
 }
 
 export async function getUser(username: string) {
-  return client.fetch(`*[_type == "user" && username == $username][0]`, {
-    username,
-  });
+  return client.fetch(
+    `*[_type == "user" && username == $username][0]{username, 
+      user, image, email}`,
+    {
+      username,
+    }
+  );
 }
 
 export async function getFollowings(username: string) {
