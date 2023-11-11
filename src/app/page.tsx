@@ -18,11 +18,11 @@ export default async function Home() {
       className="w-full flex flex-col md:flex-row p-6 
     max-w-[850px] m-auto"
     >
-      <div className=" w-full basis-3/4">
+      <div className="w-[75%] basis-3/4">
         <FollowingBar />
         <PostList />
       </div>
-      <div className="basis-1/4">
+      <div className="ml-12 basis-1/4">
         <SideBar />
       </div>
     </section>
