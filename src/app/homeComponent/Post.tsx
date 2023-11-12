@@ -1,6 +1,6 @@
 import { format } from "timeago.js";
 
-import { Post } from "@/model/post";
+import { Post } from "@/model/posts";
 import BookmarkBtn from "./BookmarkBtn";
 import LikeBtn from "./LikeBtn";
 import { AddComment } from "./AddComment";

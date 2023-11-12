@@ -3,7 +3,7 @@
 import useSWR from "swr";
 import { PropagateLoader } from "react-spinners";
 
-import { Post as PostModel } from "@/model/post";
+import { Post as PostModel } from "@/model/posts";
 import Post from "./Post";
 
 export default function PostList() {

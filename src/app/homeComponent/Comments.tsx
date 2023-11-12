@@ -1,4 +1,4 @@
-import { Comment } from "@/model/post";
+import { Comment } from "@/model/posts";
 
 type Props = {
   comments: Comment[];
