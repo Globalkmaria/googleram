@@ -12,8 +12,8 @@ export type FullPost = {
   photo: string;
   likes: string[];
   bookmarked: boolean;
-  updatedAt: number;
-  createdAt: number;
+  updatedAt: string;
+  createdAt: string;
   comments: Comment[];
   id: string;
   text: string;
