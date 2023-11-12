@@ -3,11 +3,11 @@
 import useSWR from "swr";
 import { PropagateLoader } from "react-spinners";
 
-import { Post as PostModel } from "@/model/posts";
+import { SimplePost } from "@/model/posts";
 import Post from "./Post";
 
 export default function PostList() {
-  const { data: posts, isLoading, error } = useSWR<PostModel[]>("/api/posts");
+  const { data: posts, isLoading, error } = useSWR<SimplePost[]>("/api/posts");
 
   if (error) return <div>{error.message}</div>;
   if (isLoading)
@@ -19,9 +19,13 @@ export default function PostList() {
 
   return (
     <section className="flex flex-col gap-12 mt-16">
-      {posts?.map((post) => (
-        <Post key={post.id} post={post} />
-      ))}
+      <ul>
+        {posts?.map((post) => (
+          <li key={post.id}>
+            <Post key={post.id} post={post} />
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }

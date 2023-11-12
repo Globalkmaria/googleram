@@ -1,6 +1,6 @@
 import { format } from "timeago.js";
 
-import { Post } from "@/model/posts";
+import { SimplePost } from "@/model/posts";
 import BookmarkBtn from "./BookmarkBtn";
 import LikeBtn from "./LikeBtn";
 import { AddComment } from "./AddComment";
@@ -8,7 +8,7 @@ import Avatar from "../component/Avatar/Avatar";
 import { urlFor } from "@/utils/urlFor";
 
 type Props = {
-  post: Post;
+  post: SimplePost;
 };
 
 export default function Post({ post }: Props) {
