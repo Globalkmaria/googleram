@@ -1,6 +1,8 @@
 "use client";
 
 import Avatar from "@/app/component/Avatar/Avatar";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 import { PropagateLoader } from "react-spinners";
 import useSWR from "swr";
 
@@ -11,6 +13,12 @@ type Props = {
 };
 
 export default function UserPage({ params: { username } }: Props) {
+  const { data: session } = useSession();
+
+  if (!session?.user) {
+    redirect("/auth/signIn");
+  }
+
   const { data: user, isLoading } = useSWR(`/api/user/${username}`);
   return (
     <div className="flex flex-col items-center m-10">
