@@ -1,8 +1,11 @@
+import { SimplePost } from "@/model/posts";
 import { client } from "./sanity";
+import { urlFor } from "@/utils/urlFor";
 
 export async function getFollowingPosts(username: string) {
-  return client.fetch(
-    `*[_type == "post" && author->username == $username ||
+  return client
+    .fetch(
+      `*[_type == "post" && author->username == $username ||
      author._ref in 
     *[_type == "user" 
       && username == $username][0].followings[]._ref]|order(_created_at desc)
@@ -16,8 +19,14 @@ export async function getFollowingPosts(username: string) {
           "user":author->{username, image},
           "createdAt": _createdAt
         }`,
-    {
-      username,
-    }
-  );
+      {
+        username,
+      }
+    )
+    .then((posts) =>
+      posts.map((post: SimplePost) => ({
+        ...post,
+        photo: urlFor(post.photo).url() || "",
+      }))
+    );
 }

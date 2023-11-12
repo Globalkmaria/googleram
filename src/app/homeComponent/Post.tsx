@@ -20,7 +20,7 @@ export default function Post({ post }: Props) {
       </div>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={urlFor(post.photo).url()}
+        src={post.photo}
         alt={`post image`}
         referrerPolicy="no-referrer"
         className=" object-cover"
