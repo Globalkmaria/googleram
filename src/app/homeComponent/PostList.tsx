@@ -18,11 +18,11 @@ export default function PostList() {
     );
 
   return (
-    <section className="flex flex-col gap-12 mt-16">
-      <ul>
-        {posts?.map((post) => (
+    <section>
+      <ul className="flex flex-col gap-12 mt-16">
+        {posts?.map((post, idx) => (
           <li key={post.id}>
-            <Post key={post.id} post={post} />
+            <Post key={post.id} post={post} priority={idx < 2} />
           </li>
         ))}
       </ul>

@@ -1,6 +1,6 @@
 import { MdInsertEmoticon } from "react-icons/md";
 
-export function AddComment() {
+export default function CommentForm() {
   return (
     <form className="flex border-t border-gray-200 p-2 justify-between ">
       <button type="button">
