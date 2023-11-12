@@ -9,7 +9,7 @@ export default function Comments({ comments }: Props) {
     <div>
       {comments.map((comment) => (
         <div key={comment.id}>
-          <span className="font-semibold mr-2">{comment.user.username}</span>
+          <span className="font-semibold mr-2">{comment.username}</span>
           <span>{comment.comment}</span>
         </div>
       ))}

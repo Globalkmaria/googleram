@@ -3,17 +3,17 @@ import { SimpleUser } from "./user";
 export type Post = {
   user: SimpleUser;
   photo: string;
-  likes: number;
+  likes: string[];
   bookmarked: boolean;
   updatedAt: number;
-  comments: Comment[];
+  createdAt: number;
+  comments: number;
   id: string;
+  text: string;
 };
 
 export type Comment = {
-  user: {
-    username: string;
-  };
+  username: string;
   comment: string;
   id: string;
 };

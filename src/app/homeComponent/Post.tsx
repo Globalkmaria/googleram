@@ -5,7 +5,6 @@ import BookmarkBtn from "./BookmarkBtn";
 import LikeBtn from "./LikeBtn";
 import { AddComment } from "./AddComment";
 import Avatar from "../component/Avatar/Avatar";
-import Comments from "./Comments";
 import { urlFor } from "@/utils/urlFor";
 
 type Props = {
@@ -31,10 +30,15 @@ export default function Post({ post }: Props) {
           <LikeBtn />
           <BookmarkBtn />
         </div>
-        <span className="block font-semibold text-sm">{post.likes} likes</span>
-        <Comments comments={post.comments} />
+        <span className="block font-semibold text-sm">
+          {post.likes.length} likes
+        </span>
+        <div>
+          <span className="font-semibold mr-2">{post.user.username}</span>
+          <span>{post.text}</span>
+        </div>
         <span className="block text-sm text-gray-400">
-          {format(post.updatedAt, "en_US")}
+          {format(post.createdAt, "en_US")}
         </span>
       </div>
       <AddComment />
