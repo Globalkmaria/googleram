@@ -1,11 +1,11 @@
-import { format } from "timeago.js";
+import Image from "next/image";
 
 import { SimplePost } from "@/model/posts";
 import BookmarkBtn from "./BookmarkBtn";
 import LikeBtn from "./LikeBtn";
 import { AddComment } from "./AddComment";
 import Avatar from "../component/Avatar/Avatar";
-import { urlFor } from "@/utils/urlFor";
+import { parseDate } from "@/utils/parseDate";
 
 type Props = {
   post: SimplePost;
@@ -19,9 +19,11 @@ export default function Post({ post }: Props) {
         <span className="block font-semibold">{post.user.username}</span>
       </div>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         src={post.photo}
         alt={`post image`}
+        width={600}
+        height={800}
         referrerPolicy="no-referrer"
         className=" object-cover"
       />
@@ -38,7 +40,7 @@ export default function Post({ post }: Props) {
           <span>{post.text}</span>
         </div>
         <span className="block text-sm text-gray-400">
-          {format(post.createdAt, "en_US")}
+          {parseDate(post.createdAt)}
         </span>
       </div>
       <AddComment />

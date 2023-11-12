@@ -2,7 +2,7 @@ import { MdInsertEmoticon } from "react-icons/md";
 
 export function AddComment() {
   return (
-    <div className="flex border-t border-gray-200 p-2 justify-between ">
+    <form className="flex border-t border-gray-200 p-2 justify-between ">
       <button type="button">
         <MdInsertEmoticon
           className=" text-3xl 
@@ -20,6 +20,6 @@ export function AddComment() {
       >
         Post
       </button>
-    </div>
+    </form>
   );
 }
