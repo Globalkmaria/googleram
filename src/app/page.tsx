@@ -16,7 +16,7 @@ export default async function Home() {
   return (
     <section
       className="w-full flex flex-col md:flex-row p-6 
-    max-w-[850px] m-auto"
+    max-w-[850px] m-auto bg-slate-50"
     >
       <div className="min-w-0 basis-3/4">
         <FollowingBar />
