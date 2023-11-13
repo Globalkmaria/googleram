@@ -11,12 +11,12 @@ export default function LikeBtn() {
   };
 
   return (
-    <>
+    <button type={"button"}>
       {liked ? (
         <AiFillHeart onClick={handleLike} />
       ) : (
         <AiOutlineHeart onClick={handleLike} />
       )}
-    </>
+    </button>
   );
 }

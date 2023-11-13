@@ -9,12 +9,12 @@ export default function BookmarkBtn() {
     setBookmarked(!bookmarked);
   };
   return (
-    <>
+    <button type={"button"}>
       {bookmarked ? (
         <RiBookmarkFill onClick={handleBookmark} />
       ) : (
         <RiBookmarkLine onClick={handleBookmark} />
       )}
-    </>
+    </button>
   );
 }
