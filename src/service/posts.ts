@@ -30,3 +30,29 @@ export async function getFollowingPosts(username: string) {
       }))
     );
 }
+
+export async function getPost(id: string) {
+  return client
+    .fetch(
+      `*[_type == "post" && _id == $id][0]
+  {
+  "likes":likes[]->username,
+    "user":author->{
+    username, image
+    },
+    photo,
+    "comments" :comments[]{
+      "username": author->username,
+    "image": author->image,
+    comment,
+    "id":_key,
+    }
+  }
+  `,
+      { id }
+    )
+    .then((post) => ({
+      ...post,
+      photo: urlFor(post.photo).url() || "",
+    }));
+}
