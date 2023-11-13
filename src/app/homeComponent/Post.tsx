@@ -1,15 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 
 import { SimplePost } from "@/model/posts";
 import CommentForm from "./CommentForm";
 import Avatar from "../component/Avatar/Avatar";
 import ActionBar from "./ActionBar";
-import DetailPostPortal from "./DetailPostPortal";
-import useModalControl from "../component/Modal/useModalControl";
 import { parseDate } from "@/utils/parseDate";
-import ModalPortal from "../component/Modal/ModalPortal";
 
 type Props = {
   post: SimplePost;
@@ -17,41 +15,33 @@ type Props = {
 };
 
 export default function Post({ post, priority = false }: Props) {
-  const { showModal, openModal, closeModal } = useModalControl();
-
   return (
-    <article
-      className="shadow-md rounded-md  border-gray-200 border"
-      onClick={openModal}
-    >
-      <div className="flex items-center gap-2 p-2">
-        <Avatar withRing size="small" user={post.user} />
-        <span className="block font-semibold">{post.user.username}</span>
-      </div>
-      <Image
-        src={post.photo}
-        alt={`post image`}
-        priority={priority}
-        width={500}
-        height={500}
-        className="w-full object-cover aspect-square"
-      />
-      <div className="p-2">
-        <ActionBar likes={post.likes} />
-        <div>
-          <span className="font-semibold mr-2">{post.user.username}</span>
-          <span>{post.text}</span>
+    <Link href={`/posts/${post.id}`}>
+      <article className="shadow-md rounded-md  border-gray-200 border">
+        <div className="flex items-center gap-2 p-2">
+          <Avatar withRing size="small" user={post.user} />
+          <span className="block font-semibold">{post.user.username}</span>
         </div>
-        <span className="block text-xs text-gray-400 uppercase">
-          {parseDate(post.createdAt)}
-        </span>
-      </div>
-      <CommentForm />
-      {showModal && (
-        <ModalPortal>
-          <DetailPostPortal onClose={closeModal} id={post.id} />,
-        </ModalPortal>
-      )}
-    </article>
+        <Image
+          src={post.photo}
+          alt={`post image`}
+          priority={priority}
+          width={500}
+          height={500}
+          className="w-full object-cover aspect-square"
+        />
+        <div className="p-2">
+          <ActionBar likes={post.likes} />
+          <div>
+            <span className="font-semibold mr-2">{post.user.username}</span>
+            <span>{post.text}</span>
+          </div>
+          <span className="block text-xs text-gray-400 uppercase">
+            {parseDate(post.createdAt)}
+          </span>
+        </div>
+        <CommentForm />
+      </article>
+    </Link>
   );
 }

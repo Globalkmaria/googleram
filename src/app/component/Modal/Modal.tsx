@@ -1,39 +1,71 @@
-import React from "react";
+"use client";
 
-import { ReactNode, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+
+import {
+  MouseEventHandler,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 
 type Props = {
   children: ReactNode;
-  onClose: () => void;
+  onClose?: () => void;
 };
 
-export default function Modal({ children, onClose }: Props) {
-  const ref = useRef<HTMLDivElement>(null);
+export default function Modal({ children }: Props) {
+  const router = useRouter();
+  const overlay = useRef<HTMLDivElement>(null);
+  const wrapper = useRef<HTMLDivElement>(null);
+
+  const onDismiss = useCallback(() => {
+    router.back();
+  }, [router]);
+
+  const onClick: MouseEventHandler = useCallback(
+    (e) => {
+      if (e.target === overlay.current || e.target === wrapper.current) {
+        if (onDismiss) onDismiss();
+      }
+    },
+    [onDismiss, overlay, wrapper]
+  );
 
   useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      if (!ref.current?.contains(e.target as Node)) {
-        onClose();
-      }
-    };
-    document.addEventListener("click", handleClick);
-
+    const originalStyle = window.getComputedStyle(
+      document.documentElement
+    ).overflow;
+    document.documentElement.style.overflow = "hidden";
     return () => {
-      document.removeEventListener("click", handleClick);
+      document.documentElement.style.overflow = originalStyle;
     };
   }, []);
+
+  const onKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === "Escape") onDismiss();
+    },
+    [onDismiss]
+  );
+
+  useEffect(() => {
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [onKeyDown]);
+
   return (
     <div
-      className="fixed h-[100vh] w-[100vw]  top-0 left-0 
-    flex justify-center items-center z-[99999]"
+      ref={overlay}
+      className="fixed z-10 left-0 right-0 top-0 bottom-0 mx-auto bg-black/60"
+      onClick={onClick}
     >
       <div
-        className="absolute top-0 left-0 
-        h-[100vh] w-[100vw] 
-        bg-slate-400 opacity-40
-        "
-      ></div>
-      <div className=" z-[99999]" ref={ref}>
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 
+        -translate-y-1/2 w-full sm:w-10/12 md:w-8/12 lg:w-1/2 p-6"
+        ref={wrapper}
+      >
         {children}
       </div>
     </div>

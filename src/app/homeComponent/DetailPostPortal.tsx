@@ -3,7 +3,7 @@ import Modal from "../component/Modal/Modal";
 
 type Props = {
   id: string;
-  onClose: () => void;
+  onClose?: () => void;
 };
 
 export default function DetailPostPortal({ id, onClose }: Props) {
