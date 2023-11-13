@@ -1,4 +1,5 @@
 import { Comment } from "@/model/posts";
+import Avatar from "../component/Avatar/Avatar";
 
 type Props = {
   comments: Comment[];
@@ -6,13 +7,22 @@ type Props = {
 
 export default function Comments({ comments }: Props) {
   return (
-    <div>
+    <ul className="min-h-[100%]">
       {comments.map((comment) => (
-        <div key={comment.id}>
-          <span className="font-semibold mr-2">{comment.username}</span>
-          <span>{comment.comment}</span>
-        </div>
+        <li key={comment.id} className="flex items-start">
+          <div className="flex items-center">
+            <Avatar
+              user={{
+                username: comment.username,
+                image: comment.image,
+              }}
+              size="small"
+            />
+            <span className="font-semibold mr-2">{comment.username}</span>
+          </div>
+          <p className="break-words">{comment.comment}</p>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }

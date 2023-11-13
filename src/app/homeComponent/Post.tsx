@@ -1,9 +1,15 @@
+"use client";
+
 import Image from "next/image";
+import { createPortal } from "react-dom";
 
 import { SimplePost } from "@/model/posts";
 import CommentForm from "./CommentForm";
 import Avatar from "../component/Avatar/Avatar";
 import ActionBar from "./ActionBar";
+import DetailPostPortal from "./DetailPostPortal";
+import useModalControl from "../component/Modal/useModalControl";
+import { parseDate } from "@/utils/parseDate";
 
 type Props = {
   post: SimplePost;
@@ -11,8 +17,13 @@ type Props = {
 };
 
 export default function Post({ post, priority = false }: Props) {
+  const { showModal, openModal, closeModal } = useModalControl();
+
   return (
-    <article className="shadow-md rounded-md  border-gray-200 border">
+    <article
+      className="shadow-md rounded-md  border-gray-200 border"
+      onClick={openModal}
+    >
       <div className="flex items-center gap-2 p-2">
         <Avatar withRing size="small" user={post.user} />
         <span className="block font-semibold">{post.user.username}</span>
@@ -25,13 +36,22 @@ export default function Post({ post, priority = false }: Props) {
         height={500}
         className="w-full object-cover aspect-square"
       />
-      <ActionBar
-        likes={post.likes}
-        username={post.user.username}
-        text={post.text}
-        createdAt={post.createdAt}
-      />
+      <div className="p-2">
+        <ActionBar likes={post.likes} />
+        <div>
+          <span className="font-semibold mr-2">{post.user.username}</span>
+          <span>{post.text}</span>
+        </div>
+        <span className="block text-xs text-gray-400 uppercase">
+          {parseDate(post.createdAt)}
+        </span>
+      </div>
       <CommentForm />
+      {showModal &&
+        createPortal(
+          <DetailPostPortal onClose={closeModal} id={post.id} />,
+          document.body
+        )}
     </article>
   );
 }
