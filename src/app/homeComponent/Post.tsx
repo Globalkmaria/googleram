@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { createPortal } from "react-dom";
 
 import { SimplePost } from "@/model/posts";
 import CommentForm from "./CommentForm";
@@ -10,6 +9,7 @@ import ActionBar from "./ActionBar";
 import DetailPostPortal from "./DetailPostPortal";
 import useModalControl from "../component/Modal/useModalControl";
 import { parseDate } from "@/utils/parseDate";
+import ModalPortal from "../component/Modal/ModalPortal";
 
 type Props = {
   post: SimplePost;
@@ -47,11 +47,11 @@ export default function Post({ post, priority = false }: Props) {
         </span>
       </div>
       <CommentForm />
-      {showModal &&
-        createPortal(
+      {showModal && (
+        <ModalPortal>
           <DetailPostPortal onClose={closeModal} id={post.id} />,
-          document.body
-        )}
+        </ModalPortal>
+      )}
     </article>
   );
 }

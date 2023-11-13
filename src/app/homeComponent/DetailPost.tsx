@@ -1,3 +1,5 @@
+"use client";
+
 import { FullPost } from "@/model/posts";
 import Image from "next/image";
 import Avatar from "../component/Avatar/Avatar";

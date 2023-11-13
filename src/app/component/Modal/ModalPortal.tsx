@@ -1,41 +1,27 @@
 "use client";
 
-import { ReactNode, useEffect, useRef } from "react";
+import { ReactNode, useEffect } from "react";
+import { createPortal } from "react-dom";
 
 type Props = {
   children: ReactNode;
-  onClose: () => void;
 };
 
-export default function ModalPortal({ children, onClose }: Props) {
-  const ref = useRef<HTMLDivElement>(null);
-
+export default function ModalPortal({ children }: Props) {
   useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      if (!ref.current?.contains(e.target as Node)) {
-        onClose();
-      }
-    };
-    document.addEventListener("click", handleClick);
-
+    const originalStyle = window.getComputedStyle(
+      document.documentElement
+    ).overflow;
+    document.documentElement.style.overflow = "hidden";
     return () => {
-      document.removeEventListener("click", handleClick);
+      document.documentElement.style.overflow = originalStyle;
     };
-  });
-  return (
-    <div
-      className="h-[100vh] w-[100vw] absolute top-0 left-0 
-    flex justify-center items-center z-[99999]"
-    >
-      <div
-        className="absolute top-0 left-0 
-        h-[100vh] w-[100vw] 
-        bg-slate-400 opacity-20
-        "
-      ></div>
-      <div className=" z-[99999]" ref={ref}>
-        {children}
-      </div>
-    </div>
-  );
+  }, []);
+
+  if (typeof window === "undefined") {
+    return null;
+  }
+
+  const node = document.getElementById("portal") as Element;
+  return createPortal(children, node);
 }
