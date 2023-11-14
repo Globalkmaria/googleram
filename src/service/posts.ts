@@ -23,12 +23,7 @@ export async function getFollowingPosts(username: string) {
         username,
       }
     )
-    .then((posts) =>
-      posts.map((post: SimplePost) => ({
-        ...post,
-        photo: urlFor(post.photo).url() || "",
-      }))
-    );
+    .then(mapPosts);
 }
 
 export async function getPost(id: string) {
@@ -78,12 +73,7 @@ export async function getUserPostsByCategory(
             username,
           }
         )
-        .then((posts) =>
-          posts.map((post: SimplePost) => ({
-            ...post,
-            photo: urlFor(post.photo).url() || "",
-          }))
-        );
+        .then(mapPosts);
     case "liked":
       return client
         .fetch(
@@ -99,12 +89,7 @@ export async function getUserPostsByCategory(
             username,
           }
         )
-        .then((posts) =>
-          posts.map((post: SimplePost) => ({
-            ...post,
-            photo: urlFor(post.photo).url() || "",
-          }))
-        );
+        .then(mapPosts);
 
     default:
       return client
@@ -121,11 +106,13 @@ export async function getUserPostsByCategory(
             username,
           }
         )
-        .then((posts) =>
-          posts.map((post: SimplePost) => ({
-            ...post,
-            photo: urlFor(post.photo).url() || "",
-          }))
-        );
+        .then(mapPosts);
   }
+}
+
+function mapPosts(posts: SimplePost[]) {
+  return posts.map((post: SimplePost) => ({
+    ...post,
+    photo: urlFor(post.photo).url() || "",
+  }));
 }
