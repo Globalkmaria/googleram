@@ -19,7 +19,7 @@ export default function UserPage({ params: { username } }: Props) {
     redirect("/auth/signIn");
   }
 
-  const { data: user, isLoading } = useSWR(`/api/user/${username}`);
+  const { data: user, isLoading } = useSWR(`/api/users/${username}`);
   return (
     <div className="flex flex-col items-center m-10">
       {isLoading ? (

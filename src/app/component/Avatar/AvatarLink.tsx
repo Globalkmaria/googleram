@@ -7,7 +7,7 @@ function AvatarLink(props: AvatarProps) {
   if (!session) {
     return <></>;
   }
-  const href = `/user/${session.user?.username || ""}`;
+  const href = `/users/${session.user?.username || ""}`;
   const Link = WithLink({ Component: Avatar, href });
   return <Link {...props} />;
 }
