@@ -5,6 +5,11 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import SignIn from "./SignIn";
 
+export const metadata = {
+  title: "Sign In",
+  description: "Sign in to Googlram",
+};
+
 type Props = {
   searchParams: {
     callbackUrl: string;
