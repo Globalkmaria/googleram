@@ -2,22 +2,24 @@
 
 import { DetailUser } from "@/model/user";
 import { useSession } from "next-auth/react";
+import useSWR from "swr";
 
 type Props = {
   user: DetailUser;
 };
 
 export default function FollowButton({ user }: Props) {
-  const { data: session } = useSession();
+  const { username } = user;
+  const { data: loggedInUser } = useSWR<DetailUser>("/api/me");
 
-  const isUser = session?.user.username === user.username;
-  const isFollowing =
-    !isUser &&
-    user.followers.find((user) => user.username === session?.user.username);
+  const showButton = loggedInUser && loggedInUser.username !== username;
+  const following =
+    loggedInUser &&
+    loggedInUser.followings.find((item) => item.username === username);
 
   return (
     <>
-      {isUser ? null : isFollowing ? (
+      {showButton && !following ? (
         <button className={`${FollowBtnBaseClassName} bg-blue-500`}>
           Follow
         </button>
