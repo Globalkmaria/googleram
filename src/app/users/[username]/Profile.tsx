@@ -14,10 +14,13 @@ export default function Profile({ user }: Props) {
   ];
 
   return (
-    <div className="my-[40px] flex items-center gap-8 w-[400px] ">
+    <div
+      className="my-[40px] flex-col md:flex-row
+    flex items-center gap-8 w-[400px] "
+    >
       <Avatar user={user} withRing />
-      <div className="flex-1">
-        <div className="flex">
+      <div className="flex-1 flex flex-col items-center gap-y-2">
+        <div className="flex flex-col md:flex-row items-center gap-y-2 gap-x-4">
           <h2>{user?.username}</h2>
           <FollowButton user={user} />
         </div>

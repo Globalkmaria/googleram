@@ -29,8 +29,12 @@ export default function Category({ type, focused, onClick }: Props) {
       }`}
       onClick={() => onClick(type)}
     >
-      <Icon />
-      <span className={`uppercase ${focused ? focusedTextClassName : ""}`}>
+      <Icon className=" scale-150 md:scale-100" />
+      <span
+        className={`uppercase hidden md:inline ${
+          focused ? focusedTextClassName : ""
+        }`}
+      >
         {type}
       </span>
     </button>

@@ -32,5 +32,5 @@ export default function FollowButton({ user }: Props) {
   );
 }
 
-const FollowBtnBaseClassName = `ml-4 text-sm text-white font-semibold
+const FollowBtnBaseClassName = `text-sm text-white font-semibold
 rounded-md px-4 py-1`;
