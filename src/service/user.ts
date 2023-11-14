@@ -32,7 +32,7 @@ export async function getUserByUsername(username: string) {
         followings[]->{username, image},
         followers[]->{username, image},
         "bookmarks": bookmarks[] -> _id,
-        "posts":count(*[_type == "post" && author->username ==$username])
+        "posts":count(*[_type == "post" && author->username == $username])
       }`,
       {
         username,

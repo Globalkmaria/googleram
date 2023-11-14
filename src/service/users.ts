@@ -15,7 +15,7 @@ export async function getUsersByKeyword(keyword: string) {
     .then((users) =>
       users.map((user: SearchUser) => ({
         ...user,
-        following: user.followings ?? 0,
+        followings: user.followings ?? 0,
         followers: user.followers ?? 0,
       }))
     );
