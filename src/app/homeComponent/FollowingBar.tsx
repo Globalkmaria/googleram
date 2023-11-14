@@ -18,7 +18,7 @@ export default function FollowingBar() {
   ];
 
   return (
-    <section className="shadow-md p-4 rounded-md min-h-[126px]">
+    <section className="shadow-md p-4 rounded-md min-h-[126px] relative z-0">
       {isLoading ? (
         <div className="flex justify-center items-center h-[94px]">
           <PropagateLoader color="#d946ef" />

@@ -8,7 +8,7 @@ type Props = {
 
 export default function page({ params }: Props) {
   return (
-    <div className="flex items-center">
+    <div className="w-full h-full">
       <DetailPost postId={params.postId} />
     </div>
   );

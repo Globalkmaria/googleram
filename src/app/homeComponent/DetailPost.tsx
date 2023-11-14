@@ -20,14 +20,15 @@ export default function DetailPost({ postId }: Props) {
   if (!post) return <div></div>;
 
   return (
-    <div className="flex max-h-[600px] max-w-[900px] ">
-      <div className="flex-3/5 basis-3/5">
+    <section className="flex h-[500px]">
+      <div className="flex-3/5 basis-3/5 relative">
         <Image
           src={post.photo}
-          alt={`post image`}
-          width={500}
-          height={500}
-          className="w-full object-cover aspect-square h-[100%]"
+          alt={`${post.user.username} post image`}
+          fill
+          sizes="650px"
+          priority
+          className="object-cover"
         />
       </div>
       <div className="flex flex-col flex-2/5 basis-2/5 bg-white">
@@ -47,6 +48,6 @@ export default function DetailPost({ postId }: Props) {
 
         <CommentForm />
       </div>
-    </div>
+    </section>
   );
 }
