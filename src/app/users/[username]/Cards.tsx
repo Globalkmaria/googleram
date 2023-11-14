@@ -13,18 +13,18 @@ export default function Cards({ posts }: Props) {
     );
   return (
     <ul
-      className="w-full grid auto-cols-auto grid-cols-3 
-    gap-y-6 justify-items-center"
+      className=" w-full grid auto-cols-auto grid-cols-3 
+    gap-4"
     >
       {posts.map((post) => (
-        <li key={post.id}>
+        <li key={post.id} className="relative aspect-square">
           <Link href={`/posts/${post.id}`}>
             <Image
-              width={250}
-              height={250}
               src={post.photo}
               alt={`${post.user} post`}
-              className="object-cover w-[250px] h-[250px] object-center"
+              fill
+              sizes="650px"
+              className="object-cover"
             />
           </Link>
         </li>
