@@ -16,8 +16,13 @@ type Props = {
 
 export default function DetailPost({ postId }: Props) {
   const { data: post, isLoading } = useSWR<FullPost>(`/api/posts/${postId}`);
-  if (isLoading) return <Loader />;
-  if (!post) return <div></div>;
+  if (isLoading)
+    return (
+      <section className="flex h-[500px]">
+        <Loader />
+      </section>
+    );
+  if (!post) return <div>No Post</div>;
 
   return (
     <section className="flex h-[500px]">

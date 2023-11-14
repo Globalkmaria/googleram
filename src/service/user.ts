@@ -1,3 +1,4 @@
+import { DetailUser } from "@/model/user";
 import { client } from "./sanity";
 
 type OAuthUser = {
@@ -23,16 +24,23 @@ export async function addUser({ id, username, email, name, image }: OAuthUser) {
 }
 
 export async function getUserByUsername(username: string) {
-  return client.fetch(
-    `*[_type == "user" && username == $username][0]{
+  return client
+    .fetch(
+      `*[_type == "user" && username == $username][0]{
         ...,
         "id": _id,
         followings[]->{username, image},
         followers[]->{username, image},
-        "bookmarks": bookmarks[] -> _id
+        "bookmarks": bookmarks[] -> _id,
+        "posts":count(*[_type == "post" && author->username ==$username])
       }`,
-    {
-      username,
-    }
-  );
+      {
+        username,
+      }
+    )
+    .then((user: DetailUser) => ({
+      ...user,
+      followers: user.followers || [],
+      followings: user.followings || [],
+    }));
 }

@@ -22,3 +22,6 @@ export type FullPost = {
 export type SimplePost = Omit<FullPost, "comments"> & {
   comments: number;
 };
+
+export const CATEGORIES = ["posts", "saved", "liked"] as const;
+export type Categories = (typeof CATEGORIES)[number];

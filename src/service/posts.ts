@@ -1,4 +1,4 @@
-import { SimplePost } from "@/model/posts";
+import { Categories, SimplePost } from "@/model/posts";
 import { client } from "./sanity";
 import { urlFor } from "@/utils/urlFor";
 
@@ -55,4 +55,77 @@ export async function getPost(id: string) {
       ...post,
       photo: urlFor(post.photo).url() || "",
     }));
+}
+
+export async function getUserPostsByCategory(
+  username: string,
+  category: Categories
+) {
+  switch (category) {
+    case "saved":
+      return client
+        .fetch(
+          `*[_type == "post" && _id in 
+    *[_type == "user" 
+      && username == $username][0].bookmarks[]->id]|order(_createdAt desc)
+        {
+          photo,
+          "id": _id,
+          "user":author->{username, image},
+          "createdAt": _createdAt
+        }`,
+          {
+            username,
+          }
+        )
+        .then((posts) =>
+          posts.map((post: SimplePost) => ({
+            ...post,
+            photo: urlFor(post.photo).url() || "",
+          }))
+        );
+    case "liked":
+      return client
+        .fetch(
+          `*[_type == "post" && $username in likes[]-> username]
+          |order(_createdAt desc)
+        {
+          photo,
+          "id": _id,
+          "user":author->{username, image},
+          "createdAt": _createdAt
+        }`,
+          {
+            username,
+          }
+        )
+        .then((posts) =>
+          posts.map((post: SimplePost) => ({
+            ...post,
+            photo: urlFor(post.photo).url() || "",
+          }))
+        );
+
+    default:
+      return client
+        .fetch(
+          `*[_type == "post" && author->username == $username]
+          |order(_createdAt desc)
+        {
+          photo,
+          "id": _id,
+          "user":author->{username, image},
+          "createdAt": _createdAt
+        }`,
+          {
+            username,
+          }
+        )
+        .then((posts) =>
+          posts.map((post: SimplePost) => ({
+            ...post,
+            photo: urlFor(post.photo).url() || "",
+          }))
+        );
+  }
 }
