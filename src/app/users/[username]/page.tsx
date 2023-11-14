@@ -1,4 +1,6 @@
+import { getUserByUsername } from "@/service/user";
 import User from "./User";
+import { notFound } from "next/navigation";
 
 type Props = {
   params: {
@@ -6,10 +8,16 @@ type Props = {
   };
 };
 
-export default function UserPage({ params: { username } }: Props) {
+export default async function UserPage({ params: { username } }: Props) {
+  const user = await getUserByUsername(username);
+
+  if (!user) {
+    notFound();
+  }
+
   return (
     <section className="w-full">
-      <User username={username} />
+      <User user={user} />
     </section>
   );
 }

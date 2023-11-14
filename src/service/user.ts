@@ -38,9 +38,12 @@ export async function getUserByUsername(username: string) {
         username,
       }
     )
-    .then((user: DetailUser) => ({
-      ...user,
-      followers: user.followers || [],
-      followings: user.followings || [],
-    }));
+    .then(
+      (user: DetailUser) =>
+        user && {
+          ...user,
+          followers: user.followers ?? [],
+          followings: user.followings ?? [],
+        }
+    );
 }
