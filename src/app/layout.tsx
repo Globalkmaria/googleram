@@ -27,10 +27,12 @@ export default function RootLayout(props: {
             </div>
           </header>
           <main className="w-full flex justify-center">
-            <SwrContext>
-              {props.children}
-              {props.modal}
-            </SwrContext>
+            <div className="w-full max-w-[850px] p-4">
+              <SwrContext>
+                {props.children}
+                {props.modal}
+              </SwrContext>
+            </div>
           </main>
         </AuthContext>
       </body>
