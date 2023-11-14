@@ -10,7 +10,7 @@ import { useSession } from "next-auth/react";
 function Nav() {
   const { data: session } = useSession();
   return (
-    <nav className="flex justify-between items-center px-6">
+    <nav className="flex justify-between items-center px-6 py-2">
       <Link href="/" className="text-4xl font-bold ">
         Googlram
       </Link>

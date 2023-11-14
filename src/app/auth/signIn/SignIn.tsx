@@ -12,7 +12,7 @@ type Props = {
 
 function SignIn({ providers, callbackUrl }: Props) {
   return (
-    <section className="min-w-[100vw] flex justify-center mt-[30%]">
+    <section className="flex justify-center mt-[30%]">
       {Object.values(providers).map((provider) => (
         <InstarBtn
           key={provider.name}
