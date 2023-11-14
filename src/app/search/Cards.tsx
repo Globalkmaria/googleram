@@ -1,9 +1,9 @@
-import { SummaryUser } from "@/model/user";
+import { SearchUser } from "@/model/user";
 import Card from "./Card";
 import Loader from "../component/PropagateLoader";
 
 type Props = {
-  users: SummaryUser[];
+  users: SearchUser[];
   isLoading: boolean;
 };
 

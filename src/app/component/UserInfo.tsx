@@ -1,7 +1,7 @@
-import { User } from "@/model/user";
+import { AuthUser } from "@/model/user";
 
 type Props = {
-  user: User;
+  user: AuthUser;
 };
 
 export default async function UserInfo({ user }: Props) {

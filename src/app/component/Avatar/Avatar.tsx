@@ -1,4 +1,4 @@
-import { SimpleUser, User } from "@/model/user";
+import { SimpleUser, AuthUser } from "@/model/user";
 
 export type AvatarProps = {
   withRing?: boolean;

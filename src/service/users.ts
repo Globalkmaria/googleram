@@ -1,4 +1,4 @@
-import { SummaryUser } from "@/model/user";
+import { SearchUser } from "@/model/user";
 import { client } from "./sanity";
 
 export async function getUsersByKeyword(keyword: string) {
@@ -13,7 +13,7 @@ export async function getUsersByKeyword(keyword: string) {
     }`
     )
     .then((users) =>
-      users.map((user: SummaryUser) => ({
+      users.map((user: SearchUser) => ({
         ...user,
         following: user.followings ?? 0,
         followers: user.followers ?? 0,

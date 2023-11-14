@@ -1,9 +1,9 @@
-import { SummaryUser } from "@/model/user";
+import { SearchUser } from "@/model/user";
 import Avatar from "../component/Avatar/Avatar";
 import Link from "next/link";
 
 type Props = {
-  user: SummaryUser;
+  user: SearchUser;
 };
 
 export default function Card({ user }: Props) {
