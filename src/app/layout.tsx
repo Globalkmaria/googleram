@@ -19,20 +19,19 @@ export default function RootLayout(props: {
 }) {
   return (
     <html lang="en" className={open_Sans.className}>
-      <body className="w-full max-w-screen-xl overflow-auto mx-auto">
+      <body className="w-full bg-neutral-50 overflow-visible">
         <AuthContext>
-          <SwrContext>
-            <header
-              className="sticky top-0 bg-white z-10  
-            border-slate-200 border-b-2"
-            >
+          <header className="sticky top-0 bg-white z-10 border-b">
+            <div className="max-w-screen-xl mx-auto">
               <Nav />
-            </header>
-            <Main>
+            </div>
+          </header>
+          <main className="w-full flex justify-center">
+            <SwrContext>
               {props.children}
               {props.modal}
-            </Main>
-          </SwrContext>
+            </SwrContext>
+          </main>
         </AuthContext>
       </body>
     </html>

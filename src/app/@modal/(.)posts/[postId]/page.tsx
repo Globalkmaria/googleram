@@ -1,5 +1,3 @@
-"use client";
-
 import DetailPostPortal from "@/app/homeComponent/DetailPostPortal";
 
 type Props = {

@@ -14,10 +14,7 @@ export default async function Home() {
   }
 
   return (
-    <section
-      className="w-full flex flex-col md:flex-row p-6 
-    max-w-[850px] m-auto bg-slate-50"
-    >
+    <section className="w-full flex flex-col md:flex-row max-w-[850px] p-4">
       <div className="min-w-0 basis-3/4">
         <FollowingBar />
         <PostList />
