@@ -7,14 +7,18 @@ type Props = {
 };
 
 export default function SearchInput({ onSearch }: Props) {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    onSearch(e.target.value);
+  };
+
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const keyword = (e.target as HTMLFormElement).keyword.value;
-    onSearch(keyword);
   };
+
   return (
     <form onSubmit={onSubmit}>
       <input
+        onChange={onChange}
         autoFocus
         id="keyword"
         name="keyword"

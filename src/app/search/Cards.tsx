@@ -18,10 +18,11 @@ export default function Cards({ users, isLoading }: Props) {
 
   return (
     <ul className="p-4 w-full flex flex-col gap-2">
-      {users.length === 0 && (
+      {users === undefined && <p></p>}
+      {users?.length === 0 && (
         <p className="text-center text-gray-400">No user found</p>
       )}
-      {users.map((user) => (
+      {users?.map((user) => (
         <li key={user.username}>
           <Card user={user} />
         </li>
