@@ -14,8 +14,6 @@ export type DetailUser = User & {
 };
 
 export type SummaryUser = User & {
-  counts: {
-    followers: number;
-    followings: number;
-  };
+  followers: number;
+  followings: number;
 };
