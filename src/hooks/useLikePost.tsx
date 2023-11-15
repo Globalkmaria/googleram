@@ -6,7 +6,7 @@ import { ScopedMutator } from "swr/_internal";
 
 type SetLike = {
   postId: string;
-  user?: AuthUser;
+  user: AuthUser;
   liked: boolean;
   likes: string[];
 };
@@ -15,11 +15,6 @@ export default function useLikePost() {
   const { mutate } = useSWRConfig();
 
   const setLike = async ({ postId, user, liked, likes }: SetLike) => {
-    if (!user) {
-      alert("You must be logged in to like a post");
-      return;
-    }
-
     try {
       const newLikes: string[] = getNewLikes(likes, user, liked);
       updateLikes(newLikes, postId, mutate);

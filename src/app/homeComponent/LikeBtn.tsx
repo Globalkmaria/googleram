@@ -1,7 +1,3 @@
-"use client";
-
-export const dynamic = "force-dynamic";
-import { useEffect, useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
 import { AuthUser } from "@/model/user";
@@ -15,30 +11,22 @@ type Props = {
 };
 
 export default function LikeBtn({ postId, likes, user }: Props) {
-  const [liked, setLiked] = useState(likes.includes(user?.username || ""));
-
+  const liked = likes.includes(user?.username || "");
   const { setLike } = useLikePost();
 
-  const handleLike = async () => {
-    const preValue = liked;
-    setLiked(!preValue);
-
-    try {
-      setLike({
-        user,
-        liked: !liked,
-        postId,
-        likes,
-      });
-    } catch (err) {
-      setLiked(preValue);
-      console.log(err);
+  const handleLike = () => {
+    if (!user) {
+      alert("You must be logged in to like a post");
+      return;
     }
-  };
 
-  useEffect(() => {
-    setLiked(likes.includes(user?.username || ""));
-  }, [likes, user]);
+    setLike({
+      user,
+      liked: !liked,
+      postId,
+      likes,
+    });
+  };
 
   return (
     <ToggleButton
