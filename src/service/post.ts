@@ -3,38 +3,37 @@ import { client } from "./sanity";
 type UpdatePostLike = {
   userId: string;
   postId: string;
-  liked: boolean;
 };
 
-export async function updatePostLike({
-  userId,
-  postId,
-  liked,
-}: UpdatePostLike) {
-  if (liked) {
-    return client
-      .patch(postId)
-      .insert("after", "likes[-1]", [
-        {
-          _type: "reference",
-          _ref: userId,
-        },
-      ])
-      .commit({ autoGenerateArrayKeys: true });
-  }
-
+export async function likePost({ userId, postId }: UpdatePostLike) {
   return client
     .patch(postId)
-    .unset([`likes[_key == ${userId}]`])
+    .setIfMissing({ likes: [] })
+    .append("likes", [
+      {
+        _ref: userId,
+        _type: "reference",
+      },
+    ])
+    .commit({ autoGenerateArrayKeys: true });
+}
+
+export async function unlikePost({ userId, postId }: UpdatePostLike) {
+  return client
+    .patch(postId)
+    .unset([`likes[_ref=="${userId}"]`])
     .commit();
 }
 
 export async function postLike({
   postId,
   liked,
-}: Omit<UpdatePostLike, "userId">) {
+}: {
+  postId: string;
+  liked: boolean;
+}) {
   return fetch(`/api/posts/${postId}/like`, {
-    method: "POST",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },

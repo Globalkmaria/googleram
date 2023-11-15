@@ -1,5 +1,7 @@
 import { getPost } from "@/service/posts";
 
+export const dynamic = "force-dynamic";
+
 type Params = {
   params: { postId: string };
 };
