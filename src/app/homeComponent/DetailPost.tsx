@@ -9,13 +9,17 @@ import CommentForm from "./CommentForm";
 import useSWR from "swr";
 import Loader from "../component/PropagateLoader";
 import { parseDate } from "@/utils/parseDate";
+import { useSession } from "next-auth/react";
 
 type Props = {
   postId: string;
 };
 
 export default function DetailPost({ postId }: Props) {
+  const { data: session } = useSession();
+  const user = session?.user;
   const { data: post, isLoading } = useSWR<FullPost>(`/api/posts/${postId}`);
+
   if (isLoading)
     return (
       <section className="flex h-[500px]">
@@ -45,7 +49,7 @@ export default function DetailPost({ postId }: Props) {
           <Comments comments={post.comments} />
         </div>
         <div className="p-2">
-          <ActionBar likes={post.likes} />
+          <ActionBar user={user} likes={post.likes} postId={postId} />
           <span className="block text-xs text-gray-400 uppercase pt-2">
             {parseDate(post.createdAt)}
           </span>

@@ -8,6 +8,7 @@ import CommentForm from "./CommentForm";
 import Avatar from "../component/Avatar/Avatar";
 import ActionBar from "./ActionBar";
 import { parseDate } from "@/utils/parseDate";
+import { useSession } from "next-auth/react";
 
 type Props = {
   post: SimplePost;
@@ -15,6 +16,9 @@ type Props = {
 };
 
 export default function Post({ post, priority = false }: Props) {
+  const { data: session } = useSession();
+  const user = session?.user;
+
   return (
     <Link href={`/posts/${post.id}`}>
       <article className="shadow-md rounded-md  border-gray-200 border">
@@ -31,7 +35,7 @@ export default function Post({ post, priority = false }: Props) {
           className="w-full object-cover aspect-square"
         />
         <div className="p-2">
-          <ActionBar likes={post.likes} />
+          <ActionBar likes={post.likes} user={user} postId={post.id} />
           <div>
             <span className="font-semibold mr-2">{post.user.username}</span>
             <span>{post.text}</span>

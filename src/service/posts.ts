@@ -1,6 +1,7 @@
-import { Categories, SimplePost } from "@/model/posts";
+import { Categories } from "@/model/posts";
 import { client } from "./sanity";
 import { urlFor } from "@/utils/urlFor";
+import { mapPosts } from "./utils";
 
 export async function getFollowingPosts(username: string) {
   return client
@@ -108,11 +109,4 @@ export async function getUserPostsByCategory(
         )
         .then(mapPosts);
   }
-}
-
-function mapPosts(posts: SimplePost[]) {
-  return posts.map((post: SimplePost) => ({
-    ...post,
-    photo: urlFor(post.photo).url() || "",
-  }));
 }

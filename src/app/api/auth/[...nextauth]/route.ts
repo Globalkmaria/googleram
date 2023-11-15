@@ -30,11 +30,13 @@ export const authOptions: NextAuthOptions = {
 
       return true;
     },
-    async session({ session }) {
+    async session({ session, token }) {
       const user = session?.user;
+
       if (user) {
         session.user = {
           ...user,
+          id: token.sub || "",
           username: user.email?.split("@")[0] || "",
         };
       }

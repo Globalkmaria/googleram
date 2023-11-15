@@ -1,22 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { AuthUser } from "@/model/user";
+import { postLike } from "@/service/post";
+import { MouseEvent } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { useSWRConfig } from "swr";
 
-export default function LikeBtn() {
-  const [liked, setLiked] = useState(false);
+type Props = {
+  postId: string;
+  likes: string[];
+  user?: AuthUser;
+};
 
-  const handleLike = () => {
-    setLiked(!liked);
+export default function LikeBtn({ postId, likes, user }: Props) {
+  const { mutate } = useSWRConfig();
+  const liked = !!likes.find((username) => username === user?.username);
+
+  console.log(likes, user, liked);
+
+  const handleLike = (e: MouseEvent<HTMLButtonElement>) => {
+    if (!user) {
+      alert("You must be logged in to like a post");
+      return;
+    }
+
+    mutate(
+      ["/api/posts", `/api/posts/${postId}`],
+      postLike({ liked: !liked, postId })
+    );
   };
 
   return (
-    <button type={"button"}>
-      {liked ? (
-        <AiFillHeart onClick={handleLike} />
-      ) : (
-        <AiOutlineHeart onClick={handleLike} />
-      )}
+    <button type={"button"} onClick={handleLike}>
+      {liked ? <AiFillHeart /> : <AiOutlineHeart />}
     </button>
   );
 }
