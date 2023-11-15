@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { RiBookmarkFill, RiBookmarkLine } from "react-icons/ri";
+import ToggleButton from "../component/ToggleButton";
 
 export default function BookmarkBtn() {
   const [bookmarked, setBookmarked] = useState(false);
@@ -9,12 +10,11 @@ export default function BookmarkBtn() {
     setBookmarked(!bookmarked);
   };
   return (
-    <button type={"button"}>
-      {bookmarked ? (
-        <RiBookmarkFill onClick={handleBookmark} />
-      ) : (
-        <RiBookmarkLine onClick={handleBookmark} />
-      )}
-    </button>
+    <ToggleButton
+      on={bookmarked}
+      toggle={handleBookmark}
+      OnIcon={RiBookmarkFill}
+      OffIcon={RiBookmarkLine}
+    />
   );
 }

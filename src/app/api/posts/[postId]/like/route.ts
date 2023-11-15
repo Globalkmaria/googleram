@@ -1,12 +1,12 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { updatePostLike } from "@/service/post";
+import { likePost, unlikePost } from "@/service/post";
 import { getServerSession } from "next-auth";
 
 type Params = {
   params: { postId: string };
 };
 
-export async function POST(request: Request, { params: { postId } }: Params) {
+export async function PUT(request: Request, { params: { postId } }: Params) {
   const session = await getServerSession(authOptions);
   const user = session?.user;
   const { liked } = await request.json();
@@ -15,7 +15,16 @@ export async function POST(request: Request, { params: { postId } }: Params) {
     return new Response("Authentication Error", { status: 401 });
   }
 
-  const result = await updatePostLike({ userId: user.id, postId, liked });
+  if (liked === undefined) {
+    return new Response("Bad Request", { status: 400 });
+  }
 
-  return Response.json({ message: "success" });
+  const req = liked ? likePost : unlikePost;
+
+  try {
+    const response = await req({ userId: user.id, postId });
+    return Response.json(response);
+  } catch (e) {
+    return new Response(JSON.stringify(e), { status: 500 });
+  }
 }

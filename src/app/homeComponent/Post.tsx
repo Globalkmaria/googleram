@@ -20,12 +20,12 @@ export default function Post({ post, priority = false }: Props) {
   const user = session?.user;
 
   return (
-    <Link href={`/posts/${post.id}`}>
-      <article className="shadow-md rounded-md  border-gray-200 border">
-        <div className="flex items-center gap-2 p-2">
-          <Avatar withRing size="small" user={post.user} />
-          <span className="block font-semibold">{post.user.username}</span>
-        </div>
+    <article className="shadow-md rounded-md  border-gray-200 border">
+      <div className="flex items-center gap-2 p-2">
+        <Avatar withRing size="small" user={post.user} />
+        <span className="block font-semibold">{post.user.username}</span>
+      </div>
+      <Link href={`/posts/${post.id}`}>
         <Image
           src={post.photo}
           alt={`post image`}
@@ -34,18 +34,18 @@ export default function Post({ post, priority = false }: Props) {
           height={500}
           className="w-full object-cover aspect-square"
         />
-        <div className="p-2">
-          <ActionBar likes={post.likes} user={user} postId={post.id} />
-          <div>
-            <span className="font-semibold mr-2">{post.user.username}</span>
-            <span>{post.text}</span>
-          </div>
-          <span className="block text-xs text-gray-400 uppercase">
-            {parseDate(post.createdAt)}
-          </span>
+      </Link>
+      <div className="p-2">
+        <ActionBar likes={post.likes} user={user} postId={post.id} />
+        <div>
+          <span className="font-semibold mr-2">{post.user.username}</span>
+          <span>{post.text}</span>
         </div>
-        <CommentForm />
-      </article>
-    </Link>
+        <span className="block text-xs text-gray-400 uppercase">
+          {parseDate(post.createdAt)}
+        </span>
+      </div>
+      <CommentForm />
+    </article>
   );
 }

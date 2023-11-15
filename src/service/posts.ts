@@ -30,7 +30,7 @@ export async function getFollowingPosts(username: string) {
 export async function getPost(id: string) {
   return client
     .fetch(
-      `*[_type == "post" && _id == $id][0]
+      `*[_type == "post" && _id == "${id}"][0]
   {
   "likes":likes[]->username,
     "user":author->{
@@ -44,12 +44,12 @@ export async function getPost(id: string) {
     "id":_key,
     }
   }
-  `,
-      { id }
+  `
     )
     .then((post) => ({
       ...post,
       photo: urlFor(post.photo).url() || "",
+      likes: post.likes ?? [],
     }));
 }
 
