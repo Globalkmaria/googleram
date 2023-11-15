@@ -12,7 +12,7 @@ export default function ActionBar({ likes, postId, user }: Props) {
   return (
     <>
       <div className="flex justify-between text-lg pb-2">
-        <LikeBtn likes={likes} postId={postId} user={user} />
+        <LikeBtn likes={likes} user={user} postId={postId} />
         <BookmarkBtn />
       </div>
       <span className="block font-semibold text-sm">{likes.length} likes</span>

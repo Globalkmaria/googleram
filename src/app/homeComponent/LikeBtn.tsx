@@ -23,9 +23,10 @@ export default function LikeBtn({ postId, likes, user }: Props) {
     setLiked(!liked);
     try {
       setLike({
-        postId,
         user,
         liked: !liked,
+        postId,
+        likes,
       });
     } catch (err) {
       setLiked(liked);
