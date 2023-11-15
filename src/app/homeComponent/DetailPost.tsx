@@ -1,26 +1,24 @@
 "use client";
 
-import { FullPost } from "@/model/posts";
 import Image from "next/image";
+import useSWR from "swr";
+
+import { FullPost } from "@/model/posts";
+import { parseDate } from "@/utils/parseDate";
 import Avatar from "../component/Avatar/Avatar";
+import Loader from "../component/PropagateLoader";
 import Comments from "./Comments";
 import ActionBar from "./ActionBar";
 import CommentForm from "./CommentForm";
-import useSWR from "swr";
-import Loader from "../component/PropagateLoader";
-import { parseDate } from "@/utils/parseDate";
-import { DetailUser } from "@/model/user";
 
 type Props = {
   postId: string;
 };
 
 export default function DetailPost({ postId }: Props) {
-  const { data: user, isLoading: isLoadingUser } =
-    useSWR<DetailUser>(`/api/me`);
   const { data: post, isLoading } = useSWR<FullPost>(`/api/posts/${postId}`);
 
-  if (isLoading || isLoadingUser)
+  if (isLoading)
     return (
       <section className="flex h-[500px]">
         <Loader />
@@ -49,7 +47,7 @@ export default function DetailPost({ postId }: Props) {
           <Comments comments={post.comments} />
         </div>
         <div className="p-2">
-          <ActionBar user={user} likes={post.likes} postId={postId} />
+          <ActionBar likes={post.likes} postId={postId} />
           <span className="block text-xs text-gray-400 uppercase pt-2">
             {parseDate(post.createdAt)}
           </span>

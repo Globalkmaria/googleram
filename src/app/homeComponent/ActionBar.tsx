@@ -1,14 +1,18 @@
+"use client";
+
 import { DetailUser } from "@/model/user";
 import BookmarkBtn from "./BookmarkBtn";
 import LikeBtn from "./LikeBtn";
+import useSWR from "swr";
 
 type Props = {
   likes: string[];
   postId: string;
-  user?: DetailUser;
 };
 
-export default function ActionBar({ likes, postId, user }: Props) {
+export default function ActionBar({ likes, postId }: Props) {
+  const { data: user } = useSWR<DetailUser>(`/api/me`);
+
   return (
     <>
       <div className="flex justify-between text-lg pb-2">
