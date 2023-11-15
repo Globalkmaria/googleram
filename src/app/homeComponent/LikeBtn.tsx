@@ -1,12 +1,11 @@
 "use client";
 
 export const dynamic = "force-dynamic";
-
-import { AuthUser } from "@/model/user";
-import { postLike } from "@/service/post";
 import { useEffect, useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { useSWRConfig } from "swr";
+
+import { AuthUser } from "@/model/user";
+import usePosts from "@/hooks/usePosts";
 import ToggleButton from "../component/ToggleButton";
 
 type Props = {
@@ -18,19 +17,16 @@ type Props = {
 export default function LikeBtn({ postId, likes, user }: Props) {
   const [liked, setLiked] = useState(likes.includes(user?.username || ""));
 
-  const { mutate } = useSWRConfig();
+  const { setLike } = usePosts();
 
   const handleLike = async () => {
-    if (!user) {
-      alert("You must be logged in to like a post");
-      return;
-    }
-
     setLiked(!liked);
     try {
-      await postLike({ liked: !liked, postId });
-      mutate(`/api/posts/${postId}`);
-      mutate(`/api/posts`);
+      setLike({
+        postId,
+        user,
+        liked: !liked,
+      });
     } catch (err) {
       setLiked(liked);
       console.log(err);
