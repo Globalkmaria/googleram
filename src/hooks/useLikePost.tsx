@@ -1,6 +1,7 @@
 import { FullPost, SimplePost } from "@/model/posts";
 import { AuthUser } from "@/model/user";
 import { putLike } from "@/service/post";
+import { MUTATION_BASE_OPTION } from "@/utils/mutationBaseOptions";
 import { useSWRConfig } from "swr";
 import { ScopedMutator } from "swr/_internal";
 
@@ -27,22 +28,17 @@ export default function useLikePost() {
   return { setLike };
 }
 
-const baseOption = {
-  revalidate: false,
-  populateCache: false,
-};
-
 const updateLikes = (
   likes: string[],
   postId: string,
   mutate: ScopedMutator
 ) => {
   mutate(`/api/posts/${postId}`, undefined, {
-    ...baseOption,
+    ...MUTATION_BASE_OPTION,
     optimisticData: (current) => setNewPost(current, likes),
   });
   mutate(`/api/posts`, undefined, {
-    ...baseOption,
+    ...MUTATION_BASE_OPTION,
     optimisticData: (current) => setNewPosts(current, likes, postId),
   });
 };

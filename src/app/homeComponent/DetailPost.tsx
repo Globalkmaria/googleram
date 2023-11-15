@@ -53,7 +53,7 @@ export default function DetailPost({ postId }: Props) {
           </span>
         </div>
 
-        <CommentForm />
+        <CommentForm postId={postId} commentLength={post.comments.length} />
       </div>
     </section>
   );

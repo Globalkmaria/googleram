@@ -49,3 +49,44 @@ export async function putLike({
     body: JSON.stringify({ liked }),
   });
 }
+
+export async function addComment({
+  postId,
+  comment,
+  userId,
+}: {
+  postId: string;
+  comment: string;
+  userId: string;
+}) {
+  return client
+    .patch(postId)
+    .setIfMissing({ comments: [] })
+    .append("comments", [
+      {
+        _type: "comment",
+        comment,
+        author: {
+          _type: "reference",
+          _ref: userId,
+        },
+      },
+    ])
+    .commit({ autoGenerateArrayKeys: true });
+}
+
+export async function postComment({
+  postId,
+  comment,
+}: {
+  postId: string;
+  comment: string;
+}) {
+  return fetch(`/api/posts/${postId}/comment`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ comment }),
+  });
+}

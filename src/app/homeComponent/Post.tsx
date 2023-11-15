@@ -21,27 +21,34 @@ export default function Post({ post, priority = false }: Props) {
         <Avatar withRing size="small" user={post.user} />
         <span className="block font-semibold">{post.user.username}</span>
       </div>
-      <Link href={`/posts/${post.id}`}>
-        <Image
-          src={post.photo}
-          alt={`post image`}
-          priority={priority}
-          width={500}
-          height={500}
-          className="w-full object-cover aspect-square"
-        />
-      </Link>
+      <Image
+        src={post.photo}
+        alt={`post image`}
+        priority={priority}
+        width={500}
+        height={500}
+        className="w-full object-cover aspect-square"
+      />
       <div className="p-2">
         <ActionBar likes={post.likes} postId={post.id} />
         <div>
           <span className="font-semibold mr-2">{post.user.username}</span>
           <span>{post.text}</span>
         </div>
+        {post.comments > 1 ? (
+          <Link href={`/posts/${post.id}`}>
+            <p className=" font-semibold text-blue-500">
+              {`View all ${post.comments} comments`}
+            </p>
+          </Link>
+        ) : (
+          <></>
+        )}
         <span className="block text-xs text-gray-400 uppercase">
           {parseDate(post.createdAt)}
         </span>
       </div>
-      <CommentForm />
+      <CommentForm postId={post.id} commentLength={post.comments} />
     </article>
   );
 }

@@ -1,5 +1,6 @@
 import { DetailUser } from "@/model/user";
 import { putBookmark } from "@/service/user";
+import { MUTATION_BASE_OPTION } from "@/utils/mutationBaseOptions";
 import { useSWRConfig } from "swr";
 
 type SetBookmark = {
@@ -20,7 +21,7 @@ export default function useBookmarkPost() {
     try {
       const newBookmarks = getNewBookmarks(bookmarked, postId, user.bookmarks);
       mutate(`/api/me`, undefined, {
-        ...baseOption,
+        ...MUTATION_BASE_OPTION,
         optimisticData: (current) => ({
           ...current,
           bookmarks: newBookmarks,
@@ -34,7 +35,7 @@ export default function useBookmarkPost() {
     } catch (error) {
       console.log(error);
       mutate(`/api/me`, undefined, {
-        ...baseOption,
+        ...MUTATION_BASE_OPTION,
         optimisticData: (current) => ({
           ...current,
           bookmarks: user.bookmarks,
@@ -46,11 +47,6 @@ export default function useBookmarkPost() {
 
   return setBookmark;
 }
-
-const baseOption = {
-  revalidate: false,
-  populateCache: false,
-};
 
 const getNewBookmarks = (
   bookmarked: boolean,
