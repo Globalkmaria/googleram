@@ -6,7 +6,7 @@ type Params = {
   params: { postId: string };
 };
 
-export async function PUT(request: Request, { params: { postId } }: Params) {
+export async function PATCH(request: Request, { params: { postId } }: Params) {
   const session = await getServerSession(authOptions);
   const user = session?.user;
   const { liked } = await request.json();

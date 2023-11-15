@@ -1,30 +1,61 @@
-"use client";
+import useFollow from "@/hooks/useFollow";
 
-import { DetailUser } from "@/model/user";
-import { useSession } from "next-auth/react";
-import useSWR from "swr";
+import { DetailUser, SimpleUser } from "@/model/user";
 
 type Props = {
   user: DetailUser;
+  loggedInUser?: DetailUser;
 };
 
-export default function FollowButton({ user }: Props) {
+export default function FollowButton({ user, loggedInUser }: Props) {
   const { username } = user;
-  const { data: loggedInUser } = useSWR<DetailUser>("/api/me");
+  const setFollow = useFollow();
 
   const showButton = loggedInUser && loggedInUser.username !== username;
+  if (!showButton) return <></>;
+
   const following =
     loggedInUser &&
-    loggedInUser.followings.find((item) => item.username === username);
+    loggedInUser.followings.find((item) => item.username === user.username);
+
+  const onClick = () => {
+    if (!loggedInUser) return;
+
+    const userInfo: SimpleUser = {
+      id: loggedInUser.id,
+      username: loggedInUser.username,
+      image: user.image,
+    };
+
+    const followingUserInfo: SimpleUser = {
+      id: user.id,
+      username: user.username,
+      image: user.image,
+    };
+
+    setFollow({
+      userInfo,
+      followed: !following,
+      followingUserInfo,
+    });
+  };
 
   return (
     <>
-      {showButton && !following ? (
-        <button className={`${FollowBtnBaseClassName} bg-blue-500`}>
+      {!following ? (
+        <button
+          className={`${FollowBtnBaseClassName} bg-blue-500`}
+          type="button"
+          onClick={onClick}
+        >
           Follow
         </button>
       ) : (
-        <button className={`${FollowBtnBaseClassName} bg-red-500 `}>
+        <button
+          className={`${FollowBtnBaseClassName} bg-red-500 `}
+          type="button"
+          onClick={onClick}
+        >
           Unfollow
         </button>
       )}

@@ -34,7 +34,7 @@ export async function unlikePost({ userId, postId }: UpdatePostLike) {
     .commit();
 }
 
-export async function putLike({
+export async function patchLike({
   postId,
   liked,
 }: {
@@ -42,7 +42,7 @@ export async function putLike({
   liked: boolean;
 }) {
   return fetch(`/api/posts/${postId}/like`, {
-    method: "PUT",
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },

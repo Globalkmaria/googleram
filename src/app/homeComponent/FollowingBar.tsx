@@ -11,11 +11,7 @@ export default function FollowingBar() {
 
   if (error) return <div>Error loading followers</div>;
 
-  const followings = data?.followings && [
-    ...data.followings,
-    ...data.followings,
-    ...data.followings,
-  ];
+  const followings = data?.followings;
 
   return (
     <section className="shadow-md p-4 rounded-md min-h-[126px] relative z-0">

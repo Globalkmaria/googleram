@@ -1,5 +1,5 @@
 import { DetailUser } from "@/model/user";
-import { putBookmark } from "@/service/user";
+import { patchBookmark } from "@/service/user";
 import { MUTATION_BASE_OPTION } from "@/utils/mutationBaseOptions";
 import { useCallback } from "react";
 import { useSWRConfig } from "swr";
@@ -33,7 +33,7 @@ export default function useBookmarkPost() {
             bookmarks: newBookmarks,
           }),
         });
-        await putBookmark({
+        await patchBookmark({
           postId,
           bookmarked,
           userId: user.id,

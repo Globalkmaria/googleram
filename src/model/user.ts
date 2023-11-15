@@ -6,7 +6,7 @@ export type AuthUser = {
   id: string;
 };
 
-export type SimpleUser = Pick<AuthUser, "username" | "image">;
+export type SimpleUser = Pick<AuthUser, "username" | "image" | "id">;
 
 export type DetailUser = AuthUser & {
   followers: SimpleUser[];

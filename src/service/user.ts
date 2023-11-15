@@ -29,8 +29,8 @@ export async function getUserByUsername(username: string) {
       `*[_type == "user" && username == $username][0]{
         ...,
         "id": _id,
-        followings[]->{username, image},
-        followers[]->{username, image},
+        followings[]->{username, image, "id":_id},
+        followers[]->{username, image, "id":_id},
         "bookmarks": bookmarks[] -> _id,
         "posts":count(*[_type == "post" && author->username == $username])
       }`,
@@ -89,7 +89,7 @@ export async function removeBookmark({
     .commit();
 }
 
-export async function putBookmark({
+export async function patchBookmark({
   userId,
   postId,
   bookmarked,
@@ -99,10 +99,101 @@ export async function putBookmark({
   bookmarked: boolean;
 }) {
   return fetch(`/api/users/${userId}/bookmark`, {
-    method: "PUT",
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ bookmarked, postId }),
   });
+}
+
+export async function addFollowing({
+  userId,
+  followingId,
+}: {
+  userId: string;
+  followingId: string;
+}) {
+  return client
+    .patch(userId)
+    .setIfMissing({ followings: [] })
+    .append("followings", [
+      {
+        _ref: followingId,
+        _type: "reference",
+      },
+    ])
+    .commit({ autoGenerateArrayKeys: true });
+}
+
+export async function removeFollowing({
+  userId,
+  followingId,
+}: {
+  userId: string;
+  followingId: string;
+}) {
+  return client
+    .patch(userId)
+    .unset([`followings[_ref=="${followingId}"]`])
+    .commit();
+}
+
+export async function addFollower({
+  userId,
+  followerId,
+}: {
+  userId: string;
+  followerId: string;
+}) {
+  return client
+    .patch(userId)
+    .setIfMissing({ followers: [] })
+    .append("followers", [
+      {
+        _ref: followerId,
+        _type: "reference",
+      },
+    ])
+    .commit({ autoGenerateArrayKeys: true });
+}
+
+export async function removeFollower({
+  userId,
+  followerId,
+}: {
+  userId: string;
+  followerId: string;
+}) {
+  return client
+    .patch(userId)
+    .unset([`followers[_ref=="${followerId}"]`])
+    .commit();
+}
+
+export async function patchFollow({
+  userId,
+  followingId,
+  followed,
+}: {
+  userId: string;
+  followingId: string;
+  followed: boolean;
+}) {
+  return fetch(`/api/users/${userId}/follow`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ followed, followingId }),
+  });
+}
+
+export async function getUserFollowings(userId: string) {
+  return client.fetch(
+    `*[_type == "user" && _id == $userId][0]{
+      "followings":followings[]->_id}
+    `,
+    { userId }
+  );
 }

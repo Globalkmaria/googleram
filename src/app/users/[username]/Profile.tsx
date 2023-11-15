@@ -1,12 +1,22 @@
+"use client";
+
 import Avatar from "@/app/component/Avatar/Avatar";
 import { DetailUser } from "@/model/user";
 import FollowButton from "./FollowButton";
+import useSWR from "swr";
 
 type Props = {
-  user: DetailUser;
+  username: string;
 };
 
-export default function Profile({ user }: Props) {
+export default function Profile({ username }: Props) {
+  const { data: user, isLoading: userInfoLoading } = useSWR<DetailUser>(
+    `/api/users/${username}`
+  );
+  const { data: loggedInUser, isLoading } = useSWR<DetailUser>("/api/me");
+  if (isLoading || userInfoLoading) return <div>Loading...</div>;
+  if (!user) return <div>Cannot find user</div>;
+
   const info = [
     { title: "posts", count: user.posts },
     { title: "followers", count: user.followers.length },
@@ -22,7 +32,7 @@ export default function Profile({ user }: Props) {
       <div className="flex-1 flex flex-col items-center gap-y-2">
         <div className="flex flex-col md:flex-row items-center gap-y-2 gap-x-4">
           <h2>{user?.username}</h2>
-          <FollowButton user={user} />
+          <FollowButton user={user} loggedInUser={loggedInUser} />
         </div>
         <ul className="flex gap-3">
           {info.map((data) => (

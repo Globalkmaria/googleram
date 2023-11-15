@@ -2,7 +2,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { addBookmark, getUserBookmarks, removeBookmark } from "@/service/user";
 import { getServerSession } from "next-auth";
 
-export async function PUT(request: Request) {
+export async function PATCH(request: Request) {
   const session = await getServerSession(authOptions);
   const user = session?.user;
 

@@ -1,6 +1,6 @@
 import { FullPost, SimplePost } from "@/model/posts";
 import { AuthUser } from "@/model/user";
-import { putLike } from "@/service/post";
+import { patchLike } from "@/service/post";
 import { MUTATION_BASE_OPTION } from "@/utils/mutationBaseOptions";
 import { useCallback } from "react";
 import { useSWRConfig } from "swr";
@@ -21,7 +21,7 @@ export default function useLikePost() {
       try {
         const newLikes: string[] = getNewLikes(likes, user, liked);
         updateLikes(newLikes, postId, mutate);
-        await putLike({ liked: liked, postId });
+        await patchLike({ liked: liked, postId });
       } catch (err) {
         updateLikes(likes, postId, mutate);
         console.log(err);

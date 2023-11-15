@@ -9,7 +9,7 @@ type Props = {
 export default function User({ user }: Props) {
   return (
     <div className="w-full flex flex-col items-center">
-      <Profile user={user} />
+      <Profile username={user.username} />
       <Content username={user.username} />
     </div>
   );
