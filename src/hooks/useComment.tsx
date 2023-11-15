@@ -5,6 +5,7 @@ import { Comment, FullPost, SimplePost } from "@/model/posts";
 import { AuthUser } from "@/model/user";
 import { postComment } from "@/service/post";
 import { MUTATION_BASE_OPTION } from "@/utils/mutationBaseOptions";
+import { useCallback } from "react";
 
 type SetComment = {
   comment: string;
@@ -16,33 +17,31 @@ type SetComment = {
 export default function useComment() {
   const { mutate } = useSWRConfig();
 
-  const setComment = async ({
-    comment,
-    postId,
-    user,
-    preCommentLength,
-  }: SetComment) => {
-    const newComment: Comment = {
-      comment,
-      username: user.username,
-      image: user.image || "",
-      id: new Date().toISOString(),
-    };
+  const setComment = useCallback(
+    async ({ comment, postId, user, preCommentLength }: SetComment) => {
+      const newComment: Comment = {
+        comment,
+        username: user.username,
+        image: user.image || "",
+        id: new Date().toISOString(),
+      };
 
-    try {
-      updateComments(newComment, postId, mutate);
-      await postComment({ comment, postId });
-      return {
-        isSuccess: true,
-      };
-    } catch (err) {
-      rollbackComments(postId, mutate, preCommentLength);
-      console.log(err);
-      return {
-        isSuccess: false,
-      };
-    }
-  };
+      try {
+        updateComments(newComment, postId, mutate);
+        await postComment({ comment, postId });
+        return {
+          isSuccess: true,
+        };
+      } catch (err) {
+        rollbackComments(postId, mutate, preCommentLength);
+        console.log(err);
+        return {
+          isSuccess: false,
+        };
+      }
+    },
+    [mutate]
+  );
 
   return setComment;
 }

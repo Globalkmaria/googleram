@@ -21,14 +21,16 @@ export default function Post({ post, priority = false }: Props) {
         <Avatar withRing size="small" user={post.user} />
         <span className="block font-semibold">{post.user.username}</span>
       </div>
-      <Image
-        src={post.photo}
-        alt={`post image`}
-        priority={priority}
-        width={500}
-        height={500}
-        className="w-full object-cover aspect-square"
-      />
+      <Link href={`/posts/${post.id}`}>
+        <Image
+          src={post.photo}
+          alt={`post image`}
+          priority={priority}
+          width={500}
+          height={500}
+          className="w-full object-cover aspect-square"
+        />
+      </Link>
       <div className="p-2">
         <ActionBar likes={post.likes} postId={post.id} />
         <div>

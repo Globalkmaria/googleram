@@ -2,6 +2,7 @@ import { FullPost, SimplePost } from "@/model/posts";
 import { AuthUser } from "@/model/user";
 import { putLike } from "@/service/post";
 import { MUTATION_BASE_OPTION } from "@/utils/mutationBaseOptions";
+import { useCallback } from "react";
 import { useSWRConfig } from "swr";
 import { ScopedMutator } from "swr/_internal";
 
@@ -15,16 +16,20 @@ type SetLike = {
 export default function useLikePost() {
   const { mutate } = useSWRConfig();
 
-  const setLike = async ({ postId, user, liked, likes }: SetLike) => {
-    try {
-      const newLikes: string[] = getNewLikes(likes, user, liked);
-      updateLikes(newLikes, postId, mutate);
-      await putLike({ liked: liked, postId });
-    } catch (err) {
-      updateLikes(likes, postId, mutate);
-      console.log(err);
-    }
-  };
+  const setLike = useCallback(
+    async ({ postId, user, liked, likes }: SetLike) => {
+      try {
+        const newLikes: string[] = getNewLikes(likes, user, liked);
+        updateLikes(newLikes, postId, mutate);
+        await putLike({ liked: liked, postId });
+      } catch (err) {
+        updateLikes(likes, postId, mutate);
+        console.log(err);
+      }
+    },
+    [mutate]
+  );
+
   return { setLike };
 }
 
