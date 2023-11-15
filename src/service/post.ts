@@ -5,6 +5,15 @@ type UpdatePostLike = {
   postId: string;
 };
 
+export async function getPostLikedUsernames(postId: string) {
+  return client.fetch(
+    `*[_type == "post" && _id == $postId][0]{
+      "likes":likes[]->username}
+    `,
+    { postId }
+  );
+}
+
 export async function likePost({ userId, postId }: UpdatePostLike) {
   return client
     .patch(postId)
