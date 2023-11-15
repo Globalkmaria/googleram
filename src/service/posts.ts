@@ -64,7 +64,7 @@ export async function getUserPostsByCategory(
         .fetch(
           `*[_type == "post" && _id in 
     *[_type == "user" 
-      && username == $username][0].bookmarks[]->id]|order(_createdAt desc)
+      && username == $username][0].bookmarks[]->_id]|order(_createdAt desc)
         {
           photo,
           "id": _id,
