@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
 import { AuthUser } from "@/model/user";
-import usePosts from "@/hooks/usePosts";
+import useLikePost from "@/hooks/useLikePost";
 import ToggleButton from "../component/ToggleButton";
 
 type Props = {
@@ -17,10 +17,12 @@ type Props = {
 export default function LikeBtn({ postId, likes, user }: Props) {
   const [liked, setLiked] = useState(likes.includes(user?.username || ""));
 
-  const { setLike } = usePosts();
+  const { setLike } = useLikePost();
 
   const handleLike = async () => {
-    setLiked(!liked);
+    const preValue = liked;
+    setLiked(!preValue);
+
     try {
       setLike({
         user,
@@ -29,7 +31,7 @@ export default function LikeBtn({ postId, likes, user }: Props) {
         likes,
       });
     } catch (err) {
-      setLiked(liked);
+      setLiked(preValue);
       console.log(err);
     }
   };

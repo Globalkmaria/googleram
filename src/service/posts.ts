@@ -50,6 +50,7 @@ export async function getPost(id: string) {
       ...post,
       photo: urlFor(post.photo).url() || "",
       likes: post.likes ?? [],
+      bookmarks: post.bookmarks ?? [],
     }));
 }
 

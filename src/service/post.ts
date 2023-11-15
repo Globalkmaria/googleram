@@ -34,7 +34,7 @@ export async function unlikePost({ userId, postId }: UpdatePostLike) {
     .commit();
 }
 
-export async function postLike({
+export async function putLike({
   postId,
   liked,
 }: {

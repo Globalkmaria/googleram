@@ -9,18 +9,18 @@ import CommentForm from "./CommentForm";
 import useSWR from "swr";
 import Loader from "../component/PropagateLoader";
 import { parseDate } from "@/utils/parseDate";
-import { useSession } from "next-auth/react";
+import { DetailUser } from "@/model/user";
 
 type Props = {
   postId: string;
 };
 
 export default function DetailPost({ postId }: Props) {
-  const { data: session } = useSession();
-  const user = session?.user;
+  const { data: user, isLoading: isLoadingUser } =
+    useSWR<DetailUser>(`/api/me`);
   const { data: post, isLoading } = useSWR<FullPost>(`/api/posts/${postId}`);
 
-  if (isLoading)
+  if (isLoading || isLoadingUser)
     return (
       <section className="flex h-[500px]">
         <Loader />

@@ -47,3 +47,62 @@ export async function getUserByUsername(username: string) {
         }
     );
 }
+
+export async function getUserBookmarks(userId: string) {
+  return client.fetch(
+    `*[_type == "user" && _id == $userId][0]{
+      "bookmarks":bookmarks[]->_id}
+    `,
+    { userId }
+  );
+}
+
+export async function addBookmark({
+  userId,
+  postId,
+}: {
+  userId: string;
+  postId: string;
+}) {
+  return client
+    .patch(userId)
+    .setIfMissing({ bookmarks: [] })
+    .append("bookmarks", [
+      {
+        _ref: postId,
+        _type: "reference",
+      },
+    ])
+    .commit({ autoGenerateArrayKeys: true });
+}
+
+export async function removeBookmark({
+  userId,
+  postId,
+}: {
+  userId: string;
+  postId: string;
+}) {
+  return client
+    .patch(userId)
+    .unset([`bookmarks[_ref=="${postId}"]`])
+    .commit();
+}
+
+export async function putBookmark({
+  userId,
+  postId,
+  bookmarked,
+}: {
+  userId: string;
+  postId: string;
+  bookmarked: boolean;
+}) {
+  return fetch(`/api/users/${userId}/bookmark`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ bookmarked, postId }),
+  });
+}

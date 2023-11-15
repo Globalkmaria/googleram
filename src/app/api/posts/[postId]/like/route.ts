@@ -11,7 +11,7 @@ export async function PUT(request: Request, { params: { postId } }: Params) {
   const user = session?.user;
   const { liked } = await request.json();
 
-  if (!user) return new Response("Authentication Error", { status: 401 });
+  if (!user) return new Response("Authentication failed", { status: 401 });
 
   if (liked === undefined) return new Response("Bad Request", { status: 400 });
 

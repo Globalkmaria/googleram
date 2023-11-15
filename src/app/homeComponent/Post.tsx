@@ -8,17 +8,15 @@ import CommentForm from "./CommentForm";
 import Avatar from "../component/Avatar/Avatar";
 import ActionBar from "./ActionBar";
 import { parseDate } from "@/utils/parseDate";
-import { useSession } from "next-auth/react";
+import { DetailUser } from "@/model/user";
 
 type Props = {
   post: SimplePost;
   priority?: boolean;
+  user?: DetailUser;
 };
 
-export default function Post({ post, priority = false }: Props) {
-  const { data: session } = useSession();
-  const user = session?.user;
-
+export default function Post({ post, user, priority = false }: Props) {
   return (
     <article className="shadow-md rounded-md  border-gray-200 border">
       <div className="flex items-center gap-2 p-2">
