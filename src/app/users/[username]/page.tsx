@@ -1,5 +1,5 @@
 import { getUserByUsername } from "@/service/user";
-import User from "./User";
+import User from "./components/User";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { cache } from "react";
