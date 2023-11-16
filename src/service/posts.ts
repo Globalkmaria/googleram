@@ -9,7 +9,7 @@ export async function getFollowingPosts(username: string) {
       `*[_type == "post" && author->username == $username ||
      author._ref in 
     *[_type == "user" 
-      && username == $username][0].followings[]._ref]|order(_created_at desc)
+      && username == $username][0].followings[]._ref]|order(_createdAt desc)
         {
           "updatedAt":_updatedAt,
           photo,
@@ -110,4 +110,34 @@ export async function getUserPostsByCategory(
         )
         .then(mapPosts);
   }
+}
+
+export async function createPost(userId: string, text: string, file: Blob) {
+  return client.assets.upload("image", file).then((image) => {
+    return client.create(
+      {
+        _type: "post",
+        author: { _ref: userId },
+        photo: {
+          asset: {
+            _type: "reference",
+            _ref: image._id,
+          },
+        },
+        comments: [
+          {
+            comment: text,
+            author: {
+              _type: "reference",
+              _ref: userId,
+            },
+          },
+        ],
+        likes: [],
+      },
+      {
+        autoGenerateArrayKeys: true,
+      }
+    );
+  });
 }
