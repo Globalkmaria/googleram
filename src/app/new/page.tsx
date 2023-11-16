@@ -1,8 +1,8 @@
+import { Metadata } from "next";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import Avatar from "../component/Avatar/Avatar";
+
 import PostForm from "./components/PostForm";
-import { Metadata } from "next";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 
 export default async function page() {
@@ -13,15 +13,7 @@ export default async function page() {
     return redirect("/auth/signIn");
   }
 
-  return (
-    <section className="w-full flex flex-col items-center mt-6">
-      <div className="flex gap-2 items-center">
-        <Avatar size="small" user={session.user} withRing />
-        <span className=" font-bold">{session.user.username}</span>
-      </div>
-      <PostForm />
-    </section>
-  );
+  return <PostForm user={session.user} />;
 }
 
 export const metadata: Metadata = {
