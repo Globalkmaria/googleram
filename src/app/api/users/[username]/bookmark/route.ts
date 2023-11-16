@@ -1,28 +1,24 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { addBookmark, getUserBookmarks, removeBookmark } from "@/service/user";
-import { getServerSession } from "next-auth";
+import { withSessionUser } from "@/utils/session";
 
 export async function PATCH(request: Request) {
-  const session = await getServerSession(authOptions);
-  const user = session?.user;
+  return withSessionUser(async (user) => {
+    const { bookmarked, postId } = await request.json();
 
-  if (!user) return new Response("Authentication failed", { status: 401 });
+    try {
+      if (bookmarked) {
+        const data = await getUserBookmarks(user.id);
 
-  const { bookmarked, postId } = await request.json();
-
-  try {
-    if (bookmarked) {
-      const data = await getUserBookmarks(user.id);
-
-      if (data.bookmarks.includes(postId)) {
-        return Response.json({ message: "Already bookmarked" });
+        if (data.bookmarks.includes(postId)) {
+          return Response.json({ message: "Already bookmarked" });
+        }
       }
+      const req = bookmarked ? addBookmark : removeBookmark;
+      const response = await req({ userId: user.id, postId });
+      return Response.json(response);
+    } catch (err) {
+      console.log("Error", err);
+      return new Response(JSON.stringify(err), { status: 500 });
     }
-    const req = bookmarked ? addBookmark : removeBookmark;
-    const response = await req({ userId: user.id, postId });
-    return Response.json(response);
-  } catch (err) {
-    console.log("Error", err);
-    return new Response(JSON.stringify(err), { status: 500 });
-  }
+  });
 }
