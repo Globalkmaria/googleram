@@ -13,6 +13,7 @@ export default function Comments({ comments }: Props) {
           <div className="flex items-center">
             <Avatar
               user={{
+                id: comment.id,
                 username: comment.username,
                 image: comment.image,
               }}
