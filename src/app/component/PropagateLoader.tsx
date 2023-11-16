@@ -1,12 +1,12 @@
 import dynamic from "next/dynamic";
 
-const PropagateLoader = dynamic(
-  () => import("react-spinners").then((lib) => lib.PropagateLoader),
+const PulseLoader = dynamic(
+  () => import("react-spinners").then((lib) => lib.PulseLoader),
   {
     ssr: false,
   }
 );
 
 export default function Loader({ color = "#d946ef" }) {
-  return <PropagateLoader color={color} />;
+  return <PulseLoader size={6} color={color} />;
 }

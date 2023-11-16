@@ -36,6 +36,9 @@ export async function getUserByUsername(username: string) {
       }`,
       {
         username,
+      },
+      {
+        cache: "no-store",
       }
     )
     .then(
