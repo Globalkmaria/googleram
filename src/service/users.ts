@@ -2,11 +2,13 @@ import { SearchUser } from "@/model/user";
 import { client } from "./sanity";
 
 export async function getUsersByKeyword(keyword: string) {
+  const query = keyword
+    ? `&& (name match "${keyword}") || (username match "${keyword}")`
+    : "";
+
   return client
     .fetch(
-      `*[_type == "user" && 
-    (username match "*${keyword}*" || name match "*${keyword}*")]
-    {
+      `*[_type == "user" ${query}]{
         username, name, image,email,
             "followers": count(followers),
             "followings": count(followings)
