@@ -16,7 +16,7 @@ export default function CommentForm({ postId, commentLength }: Props) {
   const [comment, setComment] = useState("");
   const addComment = useComment();
 
-  const buttonDisabled = comment.length > 0;
+  const buttonDisabled = comment.length === 0;
 
   const handleSubmit = async () => {
     if (!user) {

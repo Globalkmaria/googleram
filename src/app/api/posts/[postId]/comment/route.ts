@@ -8,11 +8,14 @@ type Params = {
 export async function POST(request: Request, { params }: Params) {
   return withSessionUser(async (user) => {
     const { comment } = await request.json();
-    if (!comment) return new Response("Bad Request", { status: 400 });
+    const { postId } = params;
+
+    if (!postId || comment == null)
+      return new Response("Bad Request", { status: 400 });
 
     try {
       const response = await addComment({
-        postId: params.postId,
+        postId: postId,
         comment,
         userId: user.id,
       });

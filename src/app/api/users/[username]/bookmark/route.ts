@@ -5,6 +5,10 @@ export async function PATCH(request: Request) {
   return withSessionUser(async (user) => {
     const { bookmarked, postId } = await request.json();
 
+    if (!postId || bookmarked == null) {
+      return new Response("Bad Request", { status: 400 });
+    }
+
     try {
       if (bookmarked) {
         const data = await getUserBookmarks(user.id);
