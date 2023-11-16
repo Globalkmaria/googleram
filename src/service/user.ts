@@ -107,67 +107,45 @@ export async function patchBookmark({
   });
 }
 
-export async function addFollowing({
-  userId,
-  followingId,
+export async function follow({
+  myId,
+  targetId,
 }: {
-  userId: string;
-  followingId: string;
+  myId: string;
+  targetId: string;
 }) {
   return client
-    .patch(userId)
-    .setIfMissing({ followings: [] })
-    .append("followings", [
-      {
-        _ref: followingId,
-        _type: "reference",
-      },
-    ])
+    .transaction()
+    .patch(myId, (user) =>
+      user.setIfMissing({ followings: [] }).append("followings", [
+        {
+          _ref: targetId,
+          _type: "reference",
+        },
+      ])
+    )
+    .patch(targetId, (user) =>
+      user.setIfMissing({ followers: [] }).append("followers", [
+        {
+          _ref: myId,
+          _type: "reference",
+        },
+      ])
+    )
     .commit({ autoGenerateArrayKeys: true });
 }
 
-export async function removeFollowing({
-  userId,
-  followingId,
+export async function unFollow({
+  myId,
+  targetId,
 }: {
-  userId: string;
-  followingId: string;
+  myId: string;
+  targetId: string;
 }) {
   return client
-    .patch(userId)
-    .unset([`followings[_ref=="${followingId}"]`])
-    .commit();
-}
-
-export async function addFollower({
-  userId,
-  followerId,
-}: {
-  userId: string;
-  followerId: string;
-}) {
-  return client
-    .patch(userId)
-    .setIfMissing({ followers: [] })
-    .append("followers", [
-      {
-        _ref: followerId,
-        _type: "reference",
-      },
-    ])
-    .commit({ autoGenerateArrayKeys: true });
-}
-
-export async function removeFollower({
-  userId,
-  followerId,
-}: {
-  userId: string;
-  followerId: string;
-}) {
-  return client
-    .patch(userId)
-    .unset([`followers[_ref=="${followerId}"]`])
+    .transaction()
+    .patch(myId, (user) => user.unset([`followings[_ref=="${targetId}"]`]))
+    .patch(targetId, (user) => user.unset([`followers[_ref=="${myId}"]`]))
     .commit();
 }
 
