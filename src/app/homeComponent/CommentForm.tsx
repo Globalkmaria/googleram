@@ -2,7 +2,7 @@
 
 import useComment from "@/hooks/useComment";
 import { DetailUser } from "@/model/user";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, memo, useState } from "react";
 import { MdInsertEmoticon } from "react-icons/md";
 import useSWR from "swr";
 
@@ -11,7 +11,7 @@ type Props = {
   commentLength: number;
 };
 
-export default function CommentForm({ postId, commentLength }: Props) {
+function CommentForm({ postId, commentLength }: Props) {
   const { data: user } = useSWR<DetailUser>(`/api/me`);
   const [comment, setComment] = useState("");
   const addComment = useComment();
@@ -74,3 +74,5 @@ export default function CommentForm({ postId, commentLength }: Props) {
     </form>
   );
 }
+
+export default memo(CommentForm);

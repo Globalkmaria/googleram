@@ -1,66 +1,79 @@
-import { DetailUser } from "@/model/user";
-import { patchBookmark } from "@/service/user";
-import { MUTATION_BASE_OPTION } from "@/utils/mutationBaseOptions";
 import { useCallback } from "react";
 import { useSWRConfig } from "swr";
+import { ScopedMutator } from "swr/_internal";
+
+import { FullPost, SimplePost } from "@/model/posts";
+import { patchBookmark } from "@/service/user";
+import { MUTATION_BASE_OPTION } from "@/utils/mutationBaseOptions";
 
 type SetBookmark = {
   postId: string;
-  user?: DetailUser;
-  bookmarked: boolean;
+  userId: string;
+  newBookmarked: boolean;
 };
 
 export default function useBookmarkPost() {
   const { mutate } = useSWRConfig();
 
   const setBookmark = useCallback(
-    async ({ postId, user, bookmarked }: SetBookmark) => {
-      if (!user?.id) {
+    async ({ postId, userId, newBookmarked }: SetBookmark) => {
+      if (!userId) {
         alert("You must be logged in to bookmark a post");
         return;
       }
 
       try {
-        const newBookmarks = getNewBookmarks(
-          bookmarked,
-          postId,
-          user.bookmarks
-        );
-        mutate(`/api/me`, undefined, {
-          ...MUTATION_BASE_OPTION,
-          optimisticData: (current) => ({
-            ...current,
-            bookmarks: newBookmarks,
-          }),
-        });
+        updateBookmark(newBookmarked, postId, mutate);
         await patchBookmark({
           postId,
-          bookmarked,
-          userId: user.id,
+          bookmarked: newBookmarked,
+          userId: userId,
         });
       } catch (error) {
         console.log(error);
-        mutate(`/api/me`, undefined, {
-          ...MUTATION_BASE_OPTION,
-          optimisticData: (current) => ({
-            ...current,
-            bookmarks: user.bookmarks,
-          }),
-        });
+        updateBookmark(!newBookmarked, postId, mutate);
         throw new Error("Error bookmarking post");
       }
     },
     [mutate]
   );
 
-  return setBookmark;
+  return { setBookmark };
 }
 
-const getNewBookmarks = (
-  bookmarked: boolean,
+const updateBookmark = (
+  newBookmarked: boolean,
   postId: string,
-  bookmarks: string[]
+  mutate: ScopedMutator
+) => {
+  mutate(`/api/posts/${postId}`, undefined, {
+    ...MUTATION_BASE_OPTION,
+    optimisticData: (current) => setNewPost(current, newBookmarked),
+  });
+  mutate(`/api/posts`, undefined, {
+    ...MUTATION_BASE_OPTION,
+    optimisticData: (current) => setNewPosts(current, newBookmarked, postId),
+  });
+};
+
+const setNewPost = (
+  current: undefined | FullPost | SimplePost,
+  newBookmarked: boolean
 ) =>
-  bookmarked
-    ? [...bookmarks, postId]
-    : bookmarks.filter((postId) => postId !== postId);
+  current === undefined
+    ? undefined
+    : {
+        ...current,
+        bookmarked: newBookmarked,
+      };
+
+const setNewPosts = (
+  current: undefined | SimplePost[],
+  newLiked: boolean,
+  postId: string
+) =>
+  current === undefined
+    ? undefined
+    : current.map((post: SimplePost) =>
+        post.id === postId ? setNewPost(post, newLiked) : post
+      );

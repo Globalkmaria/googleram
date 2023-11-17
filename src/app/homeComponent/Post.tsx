@@ -8,13 +8,14 @@ import CommentForm from "./CommentForm";
 import Avatar from "../component/Avatar/Avatar";
 import ActionBar from "./ActionBar";
 import { parseDate } from "@/utils/parseDate";
+import { memo } from "react";
 
 type Props = {
   post: SimplePost;
   priority?: boolean;
 };
 
-export default function Post({ post, priority = false }: Props) {
+function Post({ post, priority = false }: Props) {
   return (
     <article className="shadow-md rounded-md  border-gray-200 border">
       <div className="flex items-center gap-2 p-2">
@@ -32,7 +33,12 @@ export default function Post({ post, priority = false }: Props) {
         />
       </Link>
       <div className="p-2">
-        <ActionBar likes={post.likes} postId={post.id} />
+        <ActionBar
+          liked={post.liked}
+          bookmarked={post.bookmarked}
+          likes={post.likes}
+          postId={post.id}
+        />
         <div>
           <span className="font-semibold mr-2">{post.user.username}</span>
           <span>{post.text}</span>
@@ -54,3 +60,5 @@ export default function Post({ post, priority = false }: Props) {
     </article>
   );
 }
+
+export default memo(Post);

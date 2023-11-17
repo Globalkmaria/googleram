@@ -6,18 +6,23 @@ import LikeBtn from "./LikeBtn";
 import useSWR from "swr";
 
 type Props = {
-  likes: string[];
+  liked: boolean;
+  bookmarked: boolean;
   postId: string;
+  likes: string[];
 };
 
-export default function ActionBar({ likes, postId }: Props) {
+export default function ActionBar({ liked, bookmarked, postId, likes }: Props) {
   const { data: user } = useSWR<DetailUser>(`/api/me`);
-
   return (
     <>
       <div className="flex justify-between text-lg pb-2">
-        <LikeBtn likes={likes} user={user} postId={postId} />
-        <BookmarkBtn user={user} postId={postId} />
+        <LikeBtn liked={liked} username={user?.username} postId={postId} />
+        <BookmarkBtn
+          bookmarked={bookmarked}
+          userId={user?.id}
+          postId={postId}
+        />
       </div>
       <span className="block font-semibold text-sm">{likes.length} likes</span>
     </>

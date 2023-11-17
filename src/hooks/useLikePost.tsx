@@ -1,29 +1,27 @@
-import { FullPost, SimplePost } from "@/model/posts";
-import { AuthUser } from "@/model/user";
-import { patchLike } from "@/service/post";
-import { MUTATION_BASE_OPTION } from "@/utils/mutationBaseOptions";
 import { useCallback } from "react";
 import { useSWRConfig } from "swr";
 import { ScopedMutator } from "swr/_internal";
 
+import { FullPost, SimplePost } from "@/model/posts";
+import { patchLike } from "@/service/post";
+import { MUTATION_BASE_OPTION } from "@/utils/mutationBaseOptions";
+
 type SetLike = {
   postId: string;
-  user: AuthUser;
+  username: string;
   liked: boolean;
-  likes: string[];
 };
 
 export default function useLikePost() {
   const { mutate } = useSWRConfig();
 
   const setLike = useCallback(
-    async ({ postId, user, liked, likes }: SetLike) => {
+    async ({ postId, username, liked }: SetLike) => {
       try {
-        const newLikes: string[] = getNewLikes(likes, user, liked);
-        updateLikes(newLikes, postId, mutate);
+        updateLikes(username, liked, postId, mutate);
         await patchLike({ liked: liked, postId });
       } catch (err) {
-        updateLikes(likes, postId, mutate);
+        updateLikes(username, liked, postId, mutate);
         console.log(err);
       }
     },
@@ -34,45 +32,48 @@ export default function useLikePost() {
 }
 
 const updateLikes = (
-  likes: string[],
+  username: string,
+  newLiked: boolean,
   postId: string,
   mutate: ScopedMutator
 ) => {
   mutate(`/api/posts/${postId}`, undefined, {
     ...MUTATION_BASE_OPTION,
-    optimisticData: (current) => setNewPost(current, likes),
+    optimisticData: (current) => setNewPost(current, newLiked, username),
   });
   mutate(`/api/posts`, undefined, {
     ...MUTATION_BASE_OPTION,
-    optimisticData: (current) => setNewPosts(current, likes, postId),
+    optimisticData: (current) =>
+      setNewPosts(current, newLiked, username, postId),
   });
 };
 
-const getNewLikes = (likes: string[], user: AuthUser, liked: boolean) =>
-  liked
-    ? [...likes, user.username]
-    : likes.filter((username) => username !== user.username);
+const getNewLikes = (likes: string[], username: string, newLiked: boolean) =>
+  newLiked
+    ? [...likes, username]
+    : likes.filter((likedUser) => likedUser !== username);
 
-const setNewPost = (current: undefined | FullPost, newLikes: string[]) =>
+const setNewPost = (
+  current: undefined | FullPost | SimplePost,
+  newLiked: boolean,
+  username: string
+) =>
   current === undefined
     ? undefined
     : {
         ...current,
-        likes: newLikes,
+        likes: getNewLikes(current.likes, username, newLiked),
+        liked: newLiked,
       };
 
 const setNewPosts = (
   current: undefined | SimplePost[],
-  newLikes: string[],
+  newLiked: boolean,
+  username: string,
   postId: string
 ) =>
   current === undefined
     ? undefined
     : current.map((post: SimplePost) =>
-        post.id === postId
-          ? {
-              ...post,
-              likes: newLikes,
-            }
-          : post
+        post.id === postId ? setNewPost(post, newLiked, username) : post
       );

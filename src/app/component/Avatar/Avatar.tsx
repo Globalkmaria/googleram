@@ -1,4 +1,5 @@
 import { SimpleUser, AuthUser } from "@/model/user";
+import { memo } from "react";
 
 export type AvatarProps = {
   withRing?: boolean;
@@ -25,7 +26,7 @@ function Avatar({ withRing = false, size = "medium", user }: AvatarProps) {
   );
 }
 
-export default Avatar;
+export default memo(Avatar);
 
 const getContainerStyle = ({
   size,

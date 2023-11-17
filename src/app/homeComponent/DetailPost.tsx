@@ -47,7 +47,12 @@ export default function DetailPost({ postId }: Props) {
           <Comments comments={post.comments} />
         </div>
         <div className="p-2">
-          <ActionBar likes={post.likes} postId={postId} />
+          <ActionBar
+            liked={post.liked}
+            likes={post.likes}
+            bookmarked={post.bookmarked}
+            postId={postId}
+          />
           <span className="block text-xs text-gray-400 uppercase pt-2">
             {parseDate(post.createdAt)}
           </span>

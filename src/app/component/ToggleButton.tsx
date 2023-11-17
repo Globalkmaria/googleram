@@ -1,4 +1,4 @@
-import { MouseEvent } from "react";
+import { MouseEvent, memo } from "react";
 import { IconType } from "react-icons";
 
 type Props = {
@@ -8,10 +8,12 @@ type Props = {
   toggle: (e: MouseEvent<HTMLButtonElement>) => void;
 };
 
-export default function ToggleButton({ OnIcon, OffIcon, on, toggle }: Props) {
+function ToggleButton({ OnIcon, OffIcon, on, toggle }: Props) {
   return (
     <button type={"button"} onClick={toggle}>
       {on ? <OnIcon /> : <OffIcon />}
     </button>
   );
 }
+
+export default memo(ToggleButton);

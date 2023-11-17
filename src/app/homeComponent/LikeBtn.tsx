@@ -1,32 +1,29 @@
+import { memo, useCallback } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
-import { AuthUser } from "@/model/user";
 import useLikePost from "@/hooks/useLikePost";
 import ToggleButton from "../component/ToggleButton";
 
 type Props = {
   postId: string;
-  likes: string[];
-  user?: AuthUser;
+  liked: boolean;
+  username?: string;
 };
 
-export default function LikeBtn({ postId, likes, user }: Props) {
-  const liked = likes.includes(user?.username || "");
+function LikeBtn({ postId, liked, username }: Props) {
   const { setLike } = useLikePost();
-
-  const handleLike = () => {
-    if (!user) {
+  const handleLike = useCallback(() => {
+    if (!username) {
       alert("You must be logged in to like a post");
       return;
     }
 
     setLike({
-      user,
+      username,
       liked: !liked,
       postId,
-      likes,
     });
-  };
+  }, [username, liked, postId, setLike]);
 
   return (
     <ToggleButton
@@ -37,3 +34,5 @@ export default function LikeBtn({ postId, likes, user }: Props) {
     />
   );
 }
+
+export default memo(LikeBtn);

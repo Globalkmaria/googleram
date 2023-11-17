@@ -1,30 +1,30 @@
 import { RiBookmarkFill, RiBookmarkLine } from "react-icons/ri";
 
 import ToggleButton from "../component/ToggleButton";
-import { DetailUser } from "@/model/user";
 import useBookmarkPost from "@/hooks/useBookmarkPost";
+import { memo, useCallback } from "react";
 
 type Props = {
   postId: string;
-  user?: DetailUser;
+  userId?: string;
+  bookmarked: boolean;
 };
 
-export default function BookmarkBtn({ postId, user }: Props) {
-  const bookmarked = user?.bookmarks.includes(postId) || false;
-  const setBookmark = useBookmarkPost();
+function BookmarkBtn({ postId, userId, bookmarked }: Props) {
+  const { setBookmark } = useBookmarkPost();
 
-  const handleBookmark = async () => {
-    if (!user) {
+  const handleBookmark = useCallback(async () => {
+    if (!userId) {
       alert("You must be logged in to bookmark a post");
       return;
     }
 
     setBookmark({
-      user,
-      bookmarked: !bookmarked,
+      userId,
+      newBookmarked: !bookmarked,
       postId,
     });
-  };
+  }, [setBookmark, userId, postId, bookmarked]);
 
   return (
     <ToggleButton
@@ -35,3 +35,5 @@ export default function BookmarkBtn({ postId, user }: Props) {
     />
   );
 }
+
+export default memo(BookmarkBtn);
