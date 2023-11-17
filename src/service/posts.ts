@@ -1,25 +1,28 @@
 import { Categories } from "@/model/posts";
 import { client } from "./sanity";
-import { urlFor } from "@/utils/urlFor";
-import { mapPosts } from "./utils";
+import { formatPost, mapPosts } from "./utils";
 
 export async function getFollowingPosts(username: string) {
   return client
     .fetch(
       `*[_type == "post" && author->username == $username ||
-     author._ref in 
-    *[_type == "user" 
-      && username == $username][0].followings[]._ref]|order(_createdAt desc)
-        {
-          "updatedAt":_updatedAt,
-          photo,
-          "likes": likes[]->username,
-          "comments": count(comments),
-          "text": comments[0].comment,
-          "id": _id,
-          "user":author->{username, image},
-          "createdAt": _createdAt
-        }`,
+      author._ref in 
+     *[_type == "user" 
+       && username == $username][0].followings[]._ref]|order(_createdAt desc)
+         {
+           "updatedAt":_updatedAt,
+           photo,
+           "likes": likes[]->username,
+           "liked": $username in likes[]->username,
+           "comments": count(comments),
+           "text": comments[0].comment,
+           "id": _id,
+           "user":author->{username, image},
+           "createdAt": _createdAt,
+           "bookmarked": _id in 
+            *[_type == "user" && username == $username][0].bookmarks[]->_id
+         }
+ `,
       {
         username,
       }
@@ -27,12 +30,13 @@ export async function getFollowingPosts(username: string) {
     .then(mapPosts);
 }
 
-export async function getPost(id: string) {
+export async function getPost(id: string, username: string) {
   return client
     .fetch(
       `*[_type == "post" && _id == "${id}"][0]
   {
   "likes":likes[]->username,
+  "liked": "${username}" in likes[]->username,
     "user":author->{
     username, image
     },
@@ -42,16 +46,17 @@ export async function getPost(id: string) {
     "image": author->image,
     comment,
     "id":_key,
-    }
+    },
+    "bookmarked": _id in 
+    *[_type == "user" && username == "${username}"][0].bookmarks[]->_id
   }
-  `
+  `,
+      undefined,
+      {
+        cache: "no-cache",
+      }
     )
-    .then((post) => ({
-      ...post,
-      photo: urlFor(post.photo).url() || "",
-      likes: post.likes ?? [],
-      bookmarks: post.bookmarks ?? [],
-    }));
+    .then(formatPost);
 }
 
 export async function getUserPostsByCategory(

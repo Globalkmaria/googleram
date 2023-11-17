@@ -11,6 +11,7 @@ export type FullPost = {
   user: SimpleUser;
   photo: string;
   likes: string[];
+  liked: boolean;
   bookmarked: boolean;
   updatedAt: string;
   createdAt: string;

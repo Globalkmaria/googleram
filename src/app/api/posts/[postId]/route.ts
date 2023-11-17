@@ -1,4 +1,7 @@
+import { getServerSession } from "next-auth";
 import { getPost } from "@/service/posts";
+
+import { authOptions } from "../../auth/[...nextauth]/route";
 
 export const dynamic = "force-dynamic";
 
@@ -7,6 +10,9 @@ type Params = {
 };
 
 export async function GET(request: Request, { params: { postId } }: Params) {
-  const data = await getPost(postId);
+  const session = await getServerSession(authOptions);
+  const user = session?.user;
+
+  const data = await getPost(postId, user?.username || "");
   return Response.json(data);
 }
