@@ -16,10 +16,11 @@ export default function Cards({ posts }: Props) {
       className=" w-full grid auto-cols-auto grid-cols-3 
     gap-4"
     >
-      {posts.map((post) => (
+      {posts.map((post, idx) => (
         <li key={post.id} className="relative aspect-square">
           <Link href={`/posts/${post.id}`}>
             <Image
+              priority={idx < 3}
               src={post.photo}
               alt={`${post.user} post`}
               fill
