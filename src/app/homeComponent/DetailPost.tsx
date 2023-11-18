@@ -43,7 +43,7 @@ export default function DetailPost({ postId }: Props) {
           <Avatar withRing size="small" user={post.user} />
           <span className="block font-semibold">{post.user.username}</span>
         </div>
-        <div className="grow p-2">
+        <div className="grow p-2 overflow-auto">
           <Comments comments={post.comments} />
         </div>
         <div className="p-2">
@@ -53,7 +53,7 @@ export default function DetailPost({ postId }: Props) {
             bookmarked={post.bookmarked}
             postId={postId}
           />
-          <span className="block text-xs text-gray-400 uppercase pt-2">
+          <span className="block text-xs text-gray-400 uppercase">
             {parseDate(post.createdAt)}
           </span>
         </div>

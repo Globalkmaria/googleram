@@ -21,7 +21,7 @@ export default function Comments({ comments }: Props) {
             />
             <span className="font-semibold mr-2">{comment.username}</span>
           </div>
-          <p className="break-words">{comment.comment}</p>
+          <p className="break-words mt-2">{comment.comment}</p>
         </li>
       ))}
     </ul>
