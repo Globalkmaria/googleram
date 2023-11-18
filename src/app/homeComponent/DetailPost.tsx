@@ -20,9 +20,9 @@ export default function DetailPost({ postId }: Props) {
 
   if (isLoading)
     return (
-      <section className="flex h-[500px]">
+      <div className="flex items-center justify-center h-[500px]">
         <Loader />
-      </section>
+      </div>
     );
   if (!post) return <div>No Post</div>;
 

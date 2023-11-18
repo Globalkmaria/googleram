@@ -4,6 +4,8 @@ import Avatar from "@/app/component/Avatar/Avatar";
 import { DetailUser } from "@/model/user";
 import FollowButton from "./FollowButton";
 import useSWR from "swr";
+import Loader from "@/app/component/PropagateLoader";
+import { ReactNode } from "react";
 
 type Props = {
   username: string;
@@ -14,7 +16,15 @@ export default function Profile({ username }: Props) {
     `/api/users/${username}`
   );
   const { data: loggedInUser, isLoading } = useSWR<DetailUser>("/api/me");
-  if (isLoading || userInfoLoading) return <div>Loading...</div>;
+
+  if (isLoading || userInfoLoading)
+    return (
+      <div>
+        <div className="flex justify-center items-center m-4 h-[96px]">
+          <Loader />
+        </div>
+      </div>
+    );
   if (!user) return <div>Cannot find user</div>;
 
   const info = [
@@ -44,6 +54,17 @@ export default function Profile({ username }: Props) {
         </ul>
         <h2 className="font-semibold text-lg">{user.name}</h2>
       </div>
+    </div>
+  );
+}
+
+function Container({ children }: { children: ReactNode }) {
+  return (
+    <div
+      className="my-[40px] flex-col md:flex-row
+flex items-center gap-8 w-[400px] "
+    >
+      {children}
     </div>
   );
 }

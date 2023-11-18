@@ -1,9 +1,9 @@
 "use client";
 
 import useSWR from "swr";
-import { PropagateLoader } from "react-spinners";
 
 import { SimplePost } from "@/model/posts";
+import Loader from "../component/PropagateLoader";
 import Post from "./Post";
 
 export default function PostList() {
@@ -13,7 +13,7 @@ export default function PostList() {
   if (isLoading)
     return (
       <div className="flex justify-center items-center h-[100px]">
-        <PropagateLoader color="#d946ef" />
+        <Loader />
       </div>
     );
 

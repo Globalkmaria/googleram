@@ -1,10 +1,10 @@
 "use client";
 
 import useSWR from "swr";
-import { PropagateLoader } from "react-spinners";
 
-import FollowingCarousel from "./FollowingCarousel";
 import { DetailUser } from "@/model/user";
+import Loader from "../component/PropagateLoader";
+import FollowingCarousel from "./FollowingCarousel";
 
 export default function FollowingBar() {
   const { data, isLoading, error } = useSWR<DetailUser>(`/api/me`);
@@ -17,7 +17,7 @@ export default function FollowingBar() {
     <section className="shadow-md p-4 rounded-md min-h-[126px] relative z-0">
       {isLoading ? (
         <div className="flex justify-center items-center h-[94px]">
-          <PropagateLoader color="#d946ef" />
+          <Loader />
         </div>
       ) : !followings?.length ? (
         <p>{`You don't have followings`}</p>
