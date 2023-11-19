@@ -7,10 +7,10 @@ type Props = {
 
 export default function Comments({ comments }: Props) {
   return (
-    <ul className="min-h-[100%]">
+    <ul className="min-h-[100%] flex flex-col gap-4">
       {comments.map((comment) => (
-        <li key={comment.id} className="flex items-start">
-          <div className="flex items-center">
+        <li key={comment.id}>
+          <div className="inline-block align-middle mr-[6px]">
             <Avatar
               user={{
                 id: comment.id,
@@ -19,9 +19,9 @@ export default function Comments({ comments }: Props) {
               }}
               size="small"
             />
-            <span className="font-semibold mr-2">{comment.username}</span>
           </div>
-          <p className="break-words mt-2">{comment.comment}</p>
+          <span className="font-semibold mr-2">{comment.username}</span>
+          <span className="break-words">{comment.comment}</span>
         </li>
       ))}
     </ul>
