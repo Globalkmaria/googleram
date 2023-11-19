@@ -10,7 +10,7 @@ export default async function SideBar() {
   return (
     <div className="w-full">
       {session?.user && (
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 mb-6">
           <div className="h-[70px] w-[70px] min-w-[70px] min-h-[70px]">
             <Avatar user={session.user} />
           </div>
@@ -19,7 +19,7 @@ export default async function SideBar() {
           </div>
         </div>
       )}
-      <div className=" text-gray-500 my-6 text-xl">
+      <div className=" text-gray-500 mb-6 text-md">
         {SIDE_MAP.map((item, i) => (
           <span key={i}>
             {i ? <span> · </span> : ""}
@@ -27,7 +27,7 @@ export default async function SideBar() {
           </span>
         ))}
       </div>
-      <div className="font-bold text-gray-500 text-xl">
+      <div className="font-semibold text-gray-500 text-xs">
         @Copyright Googlram from Dino.M
       </div>
     </div>
