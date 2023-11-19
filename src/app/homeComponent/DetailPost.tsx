@@ -27,18 +27,18 @@ export default function DetailPost({ postId }: Props) {
   if (!post) return <div>No Post</div>;
 
   return (
-    <section className="flex h-[500px]">
-      <div className="flex-3/5 basis-3/5 relative">
+    <section className="h-[100%] flex flex-col md:flex-row md:h-[500px]">
+      <div className="h-[30vh] md:h-[auto] md:flex-3/5 md:basis-3/5 relative">
         <Image
           src={post.photo}
           alt={`${post.user.username} post image`}
           fill
           sizes="650px"
           priority
-          className="object-cover"
+          className="object-cover aspect-square"
         />
       </div>
-      <div className="flex flex-col flex-2/5 basis-2/5 bg-white">
+      <div className="h-[40vh] md:h-[100%] flex flex-col md:flex-2/5 md:basis-2/5 bg-white">
         <div className="flex items-center gap-2 p-2 border border-b-gray-200">
           <Avatar withRing size="small" user={post.user} />
           <span className="block font-semibold">{post.user.username}</span>

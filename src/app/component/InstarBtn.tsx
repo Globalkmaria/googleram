@@ -11,8 +11,9 @@ export default function InstarBtn({
   title,
   size = "small",
 }: InstarBtn) {
-  const bgClass = size === "large" ? "text-3xl p-2" : "text-2xl p-1";
-  const btnClass = size === "large" ? "p-3" : "p-2";
+  const bgClass =
+    size === "large" ? "text-3xl p-2" : "text-md p-[2px] md:text-2xl md:p-1";
+  const btnClass = size === "large" ? "p-3" : "p-[4px] md:p-2";
 
   return (
     <div

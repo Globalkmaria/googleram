@@ -64,7 +64,7 @@ export default function Modal({ children }: Props) {
     >
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 
-        -translate-y-1/2 w-4/5 h-3/5 max-w-7xl"
+        -translate-y-1/2 w-4/5 h-9/10 md:h-3/5 md:max-w-7xl"
         ref={wrapper}
       >
         {children}

@@ -16,7 +16,7 @@ function RouteIcon({ path, title, defaultIcon, filledIcon }: RouteIcon) {
     const Icon = pathname === path ? filledIcon : defaultIcon;
 
     return (
-      <Link href={path} title={title} className="text-4xl">
+      <Link href={path} title={title} className="text-xl md:text-3xl">
         <Icon />
       </Link>
     );

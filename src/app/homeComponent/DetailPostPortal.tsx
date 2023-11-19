@@ -9,8 +9,8 @@ type Props = {
 export default function DetailPostPortal({ id, onClose }: Props) {
   return (
     <Modal onClose={onClose}>
-      <div className="top-0 left-0 h-full ">
-        <DetailPost postId={id} />,
+      <div className="top-0 left-0 h-full">
+        <DetailPost postId={id} />
       </div>
     </Modal>
   );

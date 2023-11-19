@@ -35,8 +35,8 @@ const getContainerStyle = ({
   const base = "rounded-full flex justify-center items-center";
   const sizeStyle =
     size === "small"
-      ? "h-[40px] w-[40px] min-w-[40px] min-h-[40px]"
-      : "h-[70px] w-[70px] min-w-[70px] min-h-[70px]";
+      ? "h-[28px] w-[28px] min-w-[28px] min-h-[28px] md:h-[40px] md:w-[40px] md:min-w-[40px] md:min-h-[40px]"
+      : "h-[48px] w-[48px] min-w-[48px] min-h-[48px] md:h-[70px] md:w-[70px] md:min-w-[70px] md:min-h-[70px]";
   const ringStyle = withRing
     ? "bg-gradient-to-tr from-amber-400 via-rose-500 to-fuchsia-500"
     : "";
@@ -48,8 +48,8 @@ const getImageStyle = ({ size }: Pick<AvatarProps, "size">) => {
   const base = "rounded-full bg-white object-cover";
   const sizeStyle =
     size === "small"
-      ? "h-[36px] w-[36px] p-[2px]"
-      : "h-[66px] w-[66px] p-[3px]";
+      ? "h-[26px] w-[26px] p-[1px] md:h-[36px] md:w-[36px] md:p-[2px]"
+      : "h-[44px] w-[44px] p-[3px] md:h-[66px] md:w-[66px] md:p-[3px]";
 
   return `${base} ${sizeStyle}`;
 };

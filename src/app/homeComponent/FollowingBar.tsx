@@ -14,7 +14,7 @@ export default function FollowingBar() {
   const followings = data?.followings;
 
   return (
-    <section className="shadow-md p-4 rounded-md min-h-[126px] relative z-0">
+    <section className="shadow-md p-4 rounded-md min-h-[96px] md:min-h-[126px] relative z-0">
       {isLoading ? (
         <div className="flex justify-center items-center h-[94px]">
           <Loader />
