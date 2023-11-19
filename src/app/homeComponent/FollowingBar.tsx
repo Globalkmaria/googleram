@@ -20,7 +20,7 @@ export default function FollowingBar() {
           <Loader />
         </div>
       ) : !followings?.length ? (
-        <p>{`You don't have followings`}</p>
+        <div className="flex justify-center items-center h-full">{`You don't have followings`}</div>
       ) : (
         <FollowingCarousel followings={followings} />
       )}

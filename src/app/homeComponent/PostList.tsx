@@ -17,6 +17,11 @@ export default function PostList() {
       </div>
     );
 
+  if (!posts?.length)
+    return (
+      <div className="flex justify-center items-center h-[100px]">No posts</div>
+    );
+
   return (
     <section>
       <ul className="flex flex-col gap-12 mt-6 md:mt-10">
