@@ -9,7 +9,7 @@ import Avatar from "@/app/component/Avatar/Avatar";
 import Loader from "@/app/component/PropagateLoader";
 
 type Props = {
-  user: AuthUser;
+  user?: AuthUser;
 };
 
 export default function PostForm({ user }: Props) {
@@ -51,6 +51,11 @@ export default function PostForm({ user }: Props) {
   };
 
   const handleSubmit = (e: FormEvent) => {
+    if (!user) {
+      alert("You must be logged in to post");
+      return;
+    }
+
     e.preventDefault();
     if (!file) return;
 
@@ -96,10 +101,12 @@ export default function PostForm({ user }: Props) {
           {error}
         </div>
       )}
-      <div className="flex gap-2 items-center">
-        <Avatar size="small" user={user} withRing />
-        <span className=" font-bold">{user.username}</span>
-      </div>
+      {user && (
+        <div className="flex gap-2 items-center">
+          <Avatar size="small" user={user} withRing />
+          <span className=" font-bold">{user.username}</span>
+        </div>
+      )}
       <form
         className="flex flex-col w-full mt-2 max-w-[500px]"
         onSubmit={handleSubmit}
@@ -160,7 +167,10 @@ export default function PostForm({ user }: Props) {
         <button
           type="button"
           onClick={handleSubmit}
-          className=" bg-blue-500 text-white font-semibold py-2 rounded mt-2"
+          className={`bg-blue-500 text-white font-semibold py-2 rounded mt-2 ${
+            !file ? " opacity-60" : "opacity-100"
+          }`}
+          disabled={!file}
         >
           Publish
         </button>
