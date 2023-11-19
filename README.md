@@ -1,38 +1,56 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Googlram
 
-## Getting Started
+Project Link : <https://googleram.vercel.app/>
 
-First, run the development server:
+## Table of Contents
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+- [About](#about)
+- [Features](#features)
+- [Skills and Technologies Used](#skills-and-technologies-used)
+- [Version History](#version-history)
+- [Snapshot](#snapshot)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## About
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Googlram is a dynamic and user-friendly platform designed to enrich your digital social experience. At its core, our service offers a seamless way to connect and share moments.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Features
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+1. **Effortless Account Creation and Sign-In**
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Get started in no time! Our integration with Google Account ensures a hassle-free sign-up and login process, making access to our platform both secure and convenient.
 
-## Learn More
+2. **Photo Sharing**
 
-To learn more about Next.js, take a look at the following resources:
+- Users can post photos on their profiles.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Organize and Save Memories**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- Never lose track of the posts you love. With our Saved Posts feature, you can easily bookmark and organize content into personalized collections, ensuring that your favorite memories are always just a click away.
 
-## Deploy on Vercel
+4. **Responsive Web Design**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Our project boasts a responsive web design, ensuring that it adapts seamlessly to various screen sizes and devices. Whether you're on a desktop, tablet, or smartphone, you'll experience the same user-friendly interface.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Skills and Technologies Used
+
+- Skills : Next.js(version 14), Typescript
+- State Management and Data Fetching: SWR
+- Styling : Tailwind CSS
+- CMS : Sanity
+- Authentication: Next-Auth
+- Deployment : Vercel
+
+## Version History
+
+### Version 1.0.0 (2023-11-20)
+
+- Release version 1
+
+## Snapshot
+
+  <img src="https://velog.velcdn.com/images/tjdgus0528/post/aba65e07-a4b5-4551-a354-c31ab0478779/image.png" alt="image" width="700" height="500">
+  <img src="https://velog.velcdn.com/images/tjdgus0528/post/5c430a85-7002-4629-9790-a57052e9333f/image.png" alt="image" width="700" height="500">
+  <img src="https://velog.velcdn.com/images/tjdgus0528/post/a15f495a-fe86-4a8f-af55-71ad6c4b3185/image.png" alt="image" width="700" height="350">
+  <img src="https://velog.velcdn.com/images/tjdgus0528/post/d5956da1-dd9b-467e-bdbb-2564ec63549f/image.png" alt="image" width="700" height="400">
+  <img src="https://velog.velcdn.com/images/tjdgus0528/post/e3864f60-0020-47dd-8707-f8adabbf6228/image.png" alt="image" width="700" height="400">
