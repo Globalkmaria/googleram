@@ -24,15 +24,20 @@ export const authOptions: NextAuthOptions = {
     async signIn({ user: { id, email, image, name } }) {
       if (!email) return false;
 
-      const result = await addUser({
-        id: id,
-        email: email,
-        image: image,
-        name: name || "",
-        username: email.split("@")[0],
-      });
+      try {
+        const result = await addUser({
+          id: id,
+          email: email,
+          image: image,
+          name: name || "",
+          username: email.split("@")[0],
+        });
 
-      if (!result) return false;
+        if (!result) return false;
+      } catch (e) {
+        console.log(e);
+        return false;
+      }
 
       return true;
     },

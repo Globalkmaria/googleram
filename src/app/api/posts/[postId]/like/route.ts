@@ -16,7 +16,7 @@ export async function PATCH(request: Request, { params: { postId } }: Params) {
     try {
       if (liked) {
         const likedUsers = await getPostLikedUsernames(postId);
-        if (likedUsers.likes.includes(user.username)) {
+        if (likedUsers.likes?.includes(user.username)) {
           return Response.json({ message: "Already liked" });
         }
       }
