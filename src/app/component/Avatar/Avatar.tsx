@@ -37,9 +37,7 @@ const getContainerStyle = ({
     size === "small"
       ? "h-[28px] w-[28px] min-w-[28px] min-h-[28px] md:h-[40px] md:w-[40px] md:min-w-[40px] md:min-h-[40px]"
       : "h-[48px] w-[48px] min-w-[48px] min-h-[48px] md:h-[70px] md:w-[70px] md:min-w-[70px] md:min-h-[70px]";
-  const ringStyle = withRing
-    ? "bg-gradient-to-tr from-amber-400 via-rose-500 to-fuchsia-500"
-    : "";
+  const ringStyle = withRing ? "bg-google-gradient" : "";
 
   return `${base} ${sizeStyle} ${ringStyle}`;
 };

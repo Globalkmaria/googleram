@@ -16,10 +16,7 @@ export default function InstarBtn({
   const btnClass = size === "large" ? "p-3" : "p-[4px] md:p-2";
 
   return (
-    <div
-      className={`block  bg-gradient-to-tr from-amber-400  
-  via-rose-500  to-fuchsia-500  rounded-md ${bgClass}`}
-    >
+    <div className={`block  bg-google-gradient  rounded-md ${bgClass}`}>
       <button
         onClick={onClick}
         className={` bg-white rounded 
