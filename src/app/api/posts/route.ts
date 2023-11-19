@@ -1,11 +1,15 @@
+import { getServerSession } from "next-auth";
+
 import { createPost, getFollowingPosts } from "@/service/posts";
 import { withSessionUser } from "@/utils/session";
+import { authOptions } from "../auth/[...nextauth]/route";
 
 export async function GET() {
-  return withSessionUser(async (user) => {
-    const data = await getFollowingPosts(user.username);
-    return Response.json(data);
-  });
+  const session = await getServerSession(authOptions);
+  const username = session?.user.username ?? "";
+
+  const data = await getFollowingPosts(username);
+  return Response.json(data);
 }
 
 export async function POST(request: Request) {

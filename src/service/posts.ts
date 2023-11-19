@@ -3,9 +3,10 @@ import { client } from "./sanity";
 import { formatPost, mapPosts } from "./utils";
 
 export async function getFollowingPosts(username: string) {
+  const query = username ? ` && author->username == $username` : "";
   return client
     .fetch(
-      `*[_type == "post" && author->username == $username ||
+      `*[_type == "post" ${query}||
       author._ref in 
      *[_type == "user" 
        && username == $username][0].followings[]._ref]|order(_createdAt desc)

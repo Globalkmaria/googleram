@@ -2,7 +2,7 @@ import { SearchUser } from "@/model/user";
 import { client } from "./sanity";
 
 export async function getUsersByKeyword(keyword: string) {
-  const query = keyword
+  const query = keyword.length
     ? `&& (name match "${keyword}") || (username match "${keyword}")`
     : "";
 

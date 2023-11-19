@@ -23,8 +23,6 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    "/new",
-    "/",
     "/api/users/:username/bookmark",
     "/api/users/:username/follow",
     "/api/likes",

@@ -7,7 +7,7 @@ import Loader from "../component/PropagateLoader";
 import FollowingCarousel from "./FollowingCarousel";
 
 export default function FollowingBar() {
-  const { data, isLoading, error } = useSWR<DetailUser>(`/api/me`);
+  const { data, isLoading, error } = useSWR<DetailUser>(`/api/followings`);
 
   if (error) return <div>Error loading followers</div>;
 
